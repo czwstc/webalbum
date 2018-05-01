@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% end %}
+
+{% block body %}
+<!--这里是个人相册标题和概要-->
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">用户id为 {{albums["user_id"]}} 的相册</h1>
+    <p class="lead text-muted">用户的简要描述.</p>
+    <p>
+      <a href="#" class="btn btn-primary my-2">给我打赏</a>
+      <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
+    </p>
+  </div>
+</section>
+
+<!--这里是相册列表主框架-->
+<div class="album py-5 bg-light">
+  <div class="container">
+    <!--这里是相册菜单-->
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" href="./profile">简介</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="">相册集</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">照片墙</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">视频</a>
+      </li>
+      
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">操作</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/albums/new">新建相册</a>
+            <a class="dropdown-item" href="/photos/new">上传照片</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">更多设置</a>
+          </div>
+        </li>
+    </ul>
+
+    <div class="row">
+  {% for i in range(0,3)%}
+  <div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" src="/static/album1.jpg" height="225" width="225"  alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
+        <p class="card-text">{{ albums["album_description"] }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
+          </div>
+          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% end %}
+  {% for i in range(0,3)%}
+  <div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" height="225" width="225"  alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
+        <p class="card-text">{{ albums["album_description"] }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
+          </div>
+          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% end %}
+  {% for i in range(0,3)%}
+  <div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" src="/static/none160.gif" height="225" width="225"  alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
+        <p class="card-text">{{ albums["album_description"] }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
+          </div>
+          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% end %}
+</div>
+{% end %}

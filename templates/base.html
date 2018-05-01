@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
+    <link rel="icon" href="/static/favicon.ico">
+
+    <title>{{ escape(handler.settings["website_title"]) }}</title>
+    {% block head %}{% end %}
+  </head>
+  <body>
+    <!--这里是导航栏-->
+    {% module Navbar() %}
+    <main role="main">
+      <!--这里是页面的主体内容-->
+      {% block body %}{% end %}
+    </main>
+    <!--这里是页面底部-->
+    {% block bottom %}{% end %}
+     {% module Bottom() %}
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script src="/static/js/jquery-slim.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/holder.min.js"></script>
+  </body>
+</html>
