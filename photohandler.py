@@ -3,6 +3,7 @@ import concurrent.futures
 import MySQLdb
 import os.path
 import re
+from PIL import Image
 import subprocess
 import torndb
 import tornado.escape
@@ -96,7 +97,7 @@ class PhotosUploadHandler(BaseHandler):
         #string='d'+str(0)+str(d[0])
         #print (string)
 
-        file="E:\\vs\\home\\websever2\\webserver2\\web\\files"
+        file="upload_img"
         file_user=file+"\\yulin" 
         self.mkdir(file_user)
         #self.fileup('fk0',file_user)
