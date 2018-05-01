@@ -1,3 +1,4 @@
+#coding=UTF-8
 import bcrypt
 import concurrent.futures
 import MySQLdb
@@ -125,7 +126,7 @@ class MyFormHandler(BaseHandler):
 
     def post(self):
         self.set_header("Content-Type", "text/plain")
-        self.write("You wrote " + self.get_body_argument("message"))
+        self.write("success!")
 
 
 from userhandler import *
