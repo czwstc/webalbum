@@ -40,6 +40,30 @@ class PhotosUploadHandler(BaseHandler):
                 up.write(meta['body'])
         
         return(filename)
+    def suolue(self,file):
+        infile = file
+        outfile = os.path.splitext(infile)[0] + ".JPEG"+".png" #这句是去掉jpg
+        if infile != outfile:
+            try:
+                im = Image.open(infile)
+                print(im.size)
+                height_img = int(im.size[1]*750/im.size[0])
+                size = (750, height_img)
+                print(size)
+                im.thumbnail(size)
+                im.save(outfile)
+            except IOError:
+                print("cannot create thumbnail for", infile)
+        '''缩略图用法
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <div class="col-sm-3 col-md-2">
+        <a href="#" class="thumbnail">
+            <img src="E:\vs\home\yulin1.jpg"
+                 alt="通用的占位符缩略图">
+        </a>
+    </div>'''
     def mkdir(self,path):  
   
         folder = os.path.exists(path)  
@@ -98,7 +122,8 @@ class PhotosUploadHandler(BaseHandler):
         #print (string)
 
         file="upload_img"
-        file_user=file+"\\yulin" 
+        file_user=file+"\\\yulin" 
+        file_user_suolue=file_user+"\\\suoleue"
         self.mkdir(file_user)
         #self.fileup('fk0',file_user)
         a=self.get_body_argument("fk3")
@@ -106,7 +131,8 @@ class PhotosUploadHandler(BaseHandler):
             print("a=Null")
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)
-            path_filename_1=file_user+"\\"+filename_1
+            path_filename_1=file_user+"\\\\"+filename_1
+            self.suolue(path_filename_1)
             self.write("finished!!")
             print(path_filename_1)
             #string_replace(path_filename_1,"\\","/")
