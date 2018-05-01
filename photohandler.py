@@ -78,7 +78,7 @@ class PhotosUploadHandler(BaseHandler):
         photo_description2=self.get_body_argument("description2") 
         photo_description3=self.get_body_argument("description3") 
         photo_description4=self.get_body_argument("description4") 
-
+#唐永剑 注释 测试
         v1=self.get_body_argument("box1")#是否上传
         v2=self.get_body_argument("box2")
         v3=self.get_body_argument("box3")
