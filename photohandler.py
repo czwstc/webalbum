@@ -3,6 +3,7 @@ import concurrent.futures
 import MySQLdb
 import os.path
 import re
+from PIL import Image
 import subprocess
 import torndb
 import tornado.escape
@@ -96,7 +97,7 @@ class PhotosUploadHandler(BaseHandler):
         #string='d'+str(0)+str(d[0])
         #print (string)
 
-        file="E:\\vs\\home\\websever2\\webserver2\\web\\files"
+        file="upload_img"
         file_user=file+"\\yulin" 
         self.mkdir(file_user)
         #self.fileup('fk0',file_user)
@@ -108,24 +109,28 @@ class PhotosUploadHandler(BaseHandler):
             path_filename_1=file_user+"\\"+filename_1
             self.write("finished!!")
             print(path_filename_1)
+            #string_replace(path_filename_1,"\\","/")
             self.info_up(options.album_id,options.user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
             path_filename_2=file_user+"\\"+filename_2
             self.write("finished!!")
             print(path_filename_2)
+            #string_replace(path_filename_2,"\\","/")
             self.info_up(options.album_id,options.user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
             path_filename_3=file_user+"\\"+filename_3
             self.write("finished!!")
             print(path_filename_3)
+            #string_replace(path_filename_3,"\\","/")
             self.info_up(options.album_id,options.user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
             path_filename_4=file_user+"\\"+filename_4
             self.write("finished!!")
             print(path_filename_4)
+            #string_replace(path_filename_4,"\\","/")
             self.info_up(options.album_id,options.user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
         self.write("succeddful!!")
 

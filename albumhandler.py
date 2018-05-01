@@ -74,7 +74,7 @@ class AlbumCreateHandler(BaseHandler):
         print(length1)
 
         album = albumPO()
-        album.set_album_id('test1') 
+        album.set_album_id('12232') 
         album.set_album_name(self.get_body_argument("name"))
         album.set_album_description(self.get_body_argument("discribe"))
         album.set_cover_id('369')
