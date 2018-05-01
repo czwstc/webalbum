@@ -40,8 +40,6 @@ class PhotosUploadHandler(BaseHandler):
                 up.write(meta['body'])
         
         return(filename)
-
-    return strPath;
     def mkdir(self,path):  
   
         folder = os.path.exists(path)  
