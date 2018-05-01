@@ -50,6 +50,7 @@ class PhotosUploadHandler(BaseHandler):
   
         else:  
             print ("---  There is this folder!  ---"  )
+        #test
           
     def info_up(self,album_id,user_id,photo_name,photo_description,update_date,file_name,is_public):                                #数据插入数据库
         photo = PhotoPO()
