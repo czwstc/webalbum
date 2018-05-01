@@ -7,18 +7,19 @@ class albumDAO:
         self.cn = conn
 
     def addalbum(self, album):
-        album_id = album.get_album_id()
+        #album_id = album.get_album_id()
         album_name = album.get_album_name()
         album_description = album.get_album_description()
         cover_id = album.get_cover_id()
         user_id = album.get_user_id()
         create_date = album.get_create_date()
         edit_date = album.get_edit_date()
-        sql = "insert into album(album_id, album_name, album_description,cover_id,user_id,create_date,edit_date) values('%s','%s','%s','%s','%s','%s','%s')" % (album_id, album_name, album_description,cover_id,user_id,create_date,edit_date)
+        sql = "insert into album(album_name, album_description,cover_id,user_id,create_date,edit_date) values('%s','%s','%d','%d','%s','%s')" % ( album_name, album_description,cover_id,user_id,create_date,edit_date)
         try:
-            cursor = self.cn.cursor()
-            cursor.execute(sql)
-            cursor.close()
+            #cursor = self.cn.cursor()
+            #cursor.execute(sql)
+            #cursor.close()
+             self.cn.execute(sql)
         except:
             print("insert error")
 
@@ -26,9 +27,10 @@ class albumDAO:
     def deletealbum(self, albums):
         sql = ''
         try:   
-            cursor = self.cn.cursor()
-            cursor.execute(sql)
-            cursor.close()
+            #cursor = self.cn.cursor()
+            #cursor.execute(sql)
+            #cursor.close()
+             self.cn.execute(sql)
         except:
             print("delete error")
 
@@ -38,9 +40,10 @@ class albumDAO:
         edit_date = album.get_edit_date()
         sql = "update albums set album_description = '%s' cover_id = '%s' edit_date = '%s'" % (album_description, cover_id, edit_date)
         try:
-            cursor = self.cn.cursor()
-            cursor.execute(sql)
-            cursor.close()
+            #cursor = self.cn.cursor()
+            #cursor.execute(sql)
+            #cursor.close()
+             self.cn.execute(sql)
         except:
             print("updata error")
 
@@ -51,6 +54,7 @@ class albumDAO:
             cursor = self.cn.cursor()
             cursor.execute(sql)
             rs = cursor.fetchall()
+            #self.cn.execute(sql)
             for album in rs:
                 myalbum = albumPO()
                 myalbum.set_album_id(album[0])

@@ -6,6 +6,7 @@ import re
 import subprocess
 import torndb
 import tornado.escape
+import time
 from tornado import gen
 from tornado.web import url
 import tornado.httpserver
@@ -29,14 +30,14 @@ Passwd='linux'
 DB='test'
 Charset='utf8'
 
-conn = pymysql.Connect(
-    host=Host,
-    port=Port,
-    user=User,
-    passwd=Passwd,
-    db=DB,
-    charset=Charset
-)
+#conn = pymysql.Connect(
+#    host=Host,
+#    port=Port,
+#    user=User,
+#    passwd=Passwd,
+#    db=DB,
+#    charset=Charset
+#)
 
 
 
@@ -67,6 +68,7 @@ class AlbumCreateHandler(BaseHandler):
         length1=len(db)+1
         name=self.get_body_argument("name")
         discription=self.get_body_argument("discribe")
+        now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         db[length1]= [name,discription] 
         print("name:"+name)
         print("discription:"+discription)
@@ -74,18 +76,18 @@ class AlbumCreateHandler(BaseHandler):
         print(length1)
 
         album = albumPO()
-        album.set_album_id('12232') 
+        #album.set_album_id(1) 
         album.set_album_name(self.get_body_argument("name"))
         album.set_album_description(self.get_body_argument("discribe"))
-        album.set_cover_id('369')
-        album.set_user_id('111')
-        album.set_create_date('429')
-        album.set_edit_date('429')
-        alb = albumDAO(conn)
+        album.set_cover_id(11)
+        album.set_user_id(111)
+        album.set_create_date(now_date)
+        album.set_edit_date(now_date)
+        alb = albumDAO(self.db)
         alb.addalbum(album)
 
-        conn.commit()
-        conn.close()
+        #self.db.commit()
+        #self.db.close()
 
         self.write("success!")
 

@@ -92,15 +92,6 @@ from basehandler import BaseHandler
 class HomeHandler(BaseHandler):
     def get(self):
         self.write('<h1>这是一个临时主页<h1>')
-        self.write('<div><a href="%s">登录</a></div>' %
-                    "/login")
-
-        self.write('<div><a href="%s">登出</a></div>' %
-                    "/logout")
-
-        self.write('<div><a href="%s">注册</a></div>' %
-                    "/signup")
-
         self.write('<div><a href="%s">uid：123456个人资料</a></div>' %
                    "/u/123456/profile/")
 
