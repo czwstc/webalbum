@@ -153,7 +153,7 @@ class PhotoDeleteHandler(BaseHandler):
         self.write("delete!!")
         pho.deletephoto(photo)'''
 
-<<<<<<< HEAD
+
 class FeedHandler(BaseHandler):
     def get(self,uid):
 		test = dict(
@@ -167,5 +167,5 @@ class FeedHandler(BaseHandler):
             is_public=1
         )
         self.render("photos_show.html",photos=test)
-=======
->>>>>>> 709449af1168f14775b23284376f54fe8c277c02
+
+
