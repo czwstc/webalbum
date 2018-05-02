@@ -92,30 +92,7 @@ from basehandler import BaseHandler
 
 class HomeHandler(BaseHandler):
     def get(self):
-        self.write('<h1>这是一个临时主页<h1>')
-        self.write('<div><a href="%s">uid：123456个人资料</a></div>' %
-                   "/u/123456/profile/")
-
-        self.write('<div><a href="%s">uid：12345的相册集</a></div>' %
-                   "/u/12345/albums")
-
-        self.write('<div><a href="%s">uid：12345的相册id123</a></div>' %
-                   "/u/12345/albums/123")
-        
-        self.write('<div><a href="%s">uid：12345的相册id123的照片id147</a></div>' %
-                   "/u/12345/albums/123/147")
-
-        self.write('<div><a href="%s">朋友圈</a></div>' %
-                   "/feed")
-
-        self.write('<div><a href="%s">新建相册</a></div>' %
-                   self.reverse_url("AlbumCreate"))
-
-        self.write('<div><a href="%s">上传相片</a></div>' %
-                   self.reverse_url("PhotosUpload"))
-
-        self.write('<div><a href="%s">表单实例</a></div>' %
-                   self.reverse_url("myform"))
+        self.render("home.html")
 
 
 class MyFormHandler(BaseHandler):
