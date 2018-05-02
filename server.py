@@ -92,11 +92,6 @@ class HomeHandler(BaseHandler):
     def get(self):
         self.render("home.html")
 
-class MyAlbumsHandler(BaseHandler):
-    @tornado.web.authenticated
-    def get(self):
-        self.redirect("/u/123456/albums")
-
 
 from feedhandler import FeedHandler
 from userhandler import *
