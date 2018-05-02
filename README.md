@@ -30,9 +30,12 @@
 
 数据库用的Mysql，可以使用sql语句实现增删改查
 怎么用python操作数据库具体看一下demos下的blog项目
-可以用**Navicat Lite for MySQL**调试和查看数据库
+可以用**Navicat Lite for MySQL**调试和查看数据库,mysql服务器的信息在server.py里
 
-服务器的主文件为server.py,里面有我们使用的mysql服务器的信息
+要运行这个网站：
+```
+$ python server.py
+```
 
 目前工程加入者：中元，剑哥，晓飞，鸽子，贾超
 
