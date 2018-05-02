@@ -146,26 +146,3 @@ class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
     def post(self):
-        '''photo=PhotoPO()
-        photo.set_photo_id(photo_delete_id)
-        #photo1.set_user_id()
-        pho= PhotoDAO(self.db)
-        self.write("delete!!")
-        pho.deletephoto(photo)'''
-
-
-class FeedHandler(BaseHandler):
-    def get(self,uid):
-		test = dict(
-		    photo_id=10,
-            album_id=233,
-            photo_name="超哥的小时候",
-            photo_description="一些小学初中大学的照片~",
-            cover_id=1,
-            user_id=501,
-            update_date="20180422",
-            is_public=1
-        )
-        self.render("photos_show.html",photos=test)
-
-
