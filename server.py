@@ -42,6 +42,7 @@ class Application(tornado.web.Application):
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
             url(r"/albums/new", AlbumCreateHandler, name="AlbumCreate"),
+            url(r"/albums/*", MyAlbumsHandler,name="MyAlbums"),
             url(r"/u/([0-9]+)/albums/*", AlbumsListHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/edit", AlbumEditHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/delete", AlbumDeleteHandler),
@@ -52,17 +53,15 @@ class Application(tornado.web.Application):
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
-
-            url(r"/myform", MyFormHandler, name="myform")
         ]
         settings = dict(
             website_title=u"剑哥相册",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Navbar":uimodules.Navbar,
-                        "Bottom":uimodules.Bottom},
+                        "Bottom":uimodules.Bottom,
+                        "Dialog":uimodules.Dialog},
             xsrf_cookies=False,
-            #cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
             cookie_secret="1234567892015neuee",
             login_url="/login",
             debug=True,
@@ -91,53 +90,15 @@ from basehandler import BaseHandler
 
 class HomeHandler(BaseHandler):
     def get(self):
-        self.write('<h1>这是一个临时主页<h1>')
-        self.write('<div><a href="%s">登录</a></div>' %
-                    "/login")
+        self.render("home.html")
 
-        self.write('<div><a href="%s">登出</a></div>' %
-                    "/logout")
-
-        self.write('<div><a href="%s">注册</a></div>' %
-                    "/signup")
-
-        self.write('<div><a href="%s">uid：123456个人资料</a></div>' %
-                   "/u/123456/profile/")
-
-        self.write('<div><a href="%s">uid：12345的相册集</a></div>' %
-                   "/u/12345/albums")
-
-        self.write('<div><a href="%s">uid：12345的相册id123</a></div>' %
-                   "/u/12345/albums/123")
-        
-        self.write('<div><a href="%s">uid：12345的相册id123的照片id147</a></div>' %
-                   "/u/12345/albums/123/147")
-
-        self.write('<div><a href="%s">朋友圈</a></div>' %
-                   "/feed")
-
-        self.write('<div><a href="%s">新建相册</a></div>' %
-                   self.reverse_url("AlbumCreate"))
-
-        self.write('<div><a href="%s">上传相片</a></div>' %
-                   self.reverse_url("PhotosUpload"))
-
-        self.write('<div><a href="%s">表单实例</a></div>' %
-                   self.reverse_url("myform"))
-
-
-class MyFormHandler(BaseHandler):
+class MyAlbumsHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        self.write('<html><body><form action="/myform" method="POST">'
-                   '<input type="text" name="message">'
-                   '<input type="submit" value="Submit">'
-                   '</form></body></html>')
-
-    def post(self):
-        self.set_header("Content-Type", "text/plain")
-        self.write("success!")
+        self.redirect("/u/123456/albums")
 
 
+from feedhandler import FeedHandler
 from userhandler import *
 from albumhandler import *
 from photohandler import *
