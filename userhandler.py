@@ -30,6 +30,7 @@ class UserCreateHandler(BaseHandler):
 class UserLoginHandler(BaseHandler):
     def get(self):
         self.set_secure_cookie("cur_user", "1")
+        self.write("你正在访问一个需要登录的页面，再次打开将会以admin的身份打开")
 
     @gen.coroutine
     def post(self):

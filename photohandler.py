@@ -172,13 +172,5 @@ class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
     def post(self):
-        '''photo=PhotoPO()
-        photo.set_photo_id(photo_delete_id)
-        #photo1.set_user_id()
-        pho= PhotoDAO(self.db)
-        self.write("delete!!")
-        pho.deletephoto(photo)'''
-
-class FeedHandler(BaseHandler):
-    def get(self):
-        self.write("传说中的朋友圈")
+        pass
+        

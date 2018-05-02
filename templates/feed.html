@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>照片编辑</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="theme1.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    {% module Dialog() %}
+    <div class="row clearfix" >
+        <div class="col-md-2 column">
+        </div>
+    <div class="col-md-8 column" style="background-color:#cccccc" >
+			<h1 class="text-center" >
+				欢迎来到广场诸位
+			</h1>
+		</div>
+
+     <div class="col-md-2 column">
+        </div>
+    </div>
+	{%for i in range(len(feed))[::-1]%}
+	<div class="row clearfix" id= {{feed[i]['feed_id']}}>
+		<div class="col-md-2 column">
+		</div>
+		<div class="col-md-8 column" style="background-color:#eeeeee">
+            <div class="row clearfix">
+	</div>
+            <div class="row clearfix" >
+                <div class="col-md-6 column" >
+                   <h4>
+					   {{feed[i]['user_name']}}
+			       </h4>
+                </div>
+
+                <div class="col-md-6 column" align="right">
+                   <h4>
+					   {{feed[i]['time']}}
+			       </h4>
+            </div>
+            </div>
+			<p style="word-break:break-all">
+				{{feed[i]['reason']}}
+            </p>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src={{feed_p[i]['file_name']}} />
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src={{feed_p[i]['file_name']}} />
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src={{feed_p[i]['file_name']}} />
+					</div>
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div class="col-md-6 column">
+					<div class="row clearfix">
+						<div class="col-md-3 column">
+							 <button type="button" class="btn btn-primary btn-sm">点赞{{len(feed_d[i])}}人</button>
+						</div>
+
+						<div class="col-md-3 column">
+							 <button type="button" class="btn btn-primary btn-sm">评论{{len(feed_c[i])}}人</button>
+						</div>
+                        <div class="col-md-6 column">
+                        </div>
+					</div>
+				</div>
+				<div class="col-md-6 column">
+					<p align="right">
+						{%if len(feed_d[i])>=3%}
+                        {{len(feed_d[i][0])}},{{len(feed_d[i][1])}}...已赞
+						{%elif len(feed_d[i])==1%}
+						{{len(feed_d[i][0])}}已赞
+						{%elif len(feed_d[i])==2%}
+						{{len(feed_d[i][0])}},{{len(feed_d[i][1])}}已赞
+						{%end%}
+                    </p>
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<h5>
+						这里是评论区
+					</h5>
+					{%for comment in feed_c[i]%}
+					<p>
+						{{comment['user_id']}}:{{comment['comment_body']}}
+					</p>
+					{%end%}
+
+				</div>
+			</div>
+    </div>
+		<div class="col-md-2 column">
+		</div>
+	</div>
+    <p>
+    </p>
+    {%end%}
+ <div class="row clearfix">
+        <div class="col-md-2 column">
+        </div>
+    <div class="col-md-8 column" align="center">
+			<ul class="pagination">
+				<li>
+					 <a href="#">Prev</a>
+				</li>
+				<li>
+					 <a href="#">1</a>
+				</li>
+				<li>
+					 <a href="#">2</a>
+				</li>
+				<li>
+					 <a href="#">3</a>
+				</li>
+				<li>
+					 <a href="#">4</a>
+				</li>
+				<li>
+					 <a href="#">5</a>
+				</li>
+				<li>
+					 <a href="#">Next</a>
+				</li>
+			</ul>
+		</div>
+		</div>
+
+     <div class="col-md-2 column">
+        </div>
+    </div>
+</div>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <!-- 包括所有已编译的插件 -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

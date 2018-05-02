@@ -104,3 +104,9 @@ class AlbumDeleteHandler(BaseHandler):
 
     def post(self):
         pass
+
+class MyAlbumsHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        user_id=self.get_current_user
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
