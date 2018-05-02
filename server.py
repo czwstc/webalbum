@@ -42,6 +42,7 @@ class Application(tornado.web.Application):
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
             url(r"/albums/new", AlbumCreateHandler, name="AlbumCreate"),
+            url(r"/albums/*", MyAlbumsHandler,name="MyAlbums"),
             url(r"/u/([0-9]+)/albums/*", AlbumsListHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/edit", AlbumEditHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/delete", AlbumDeleteHandler),
@@ -52,8 +53,6 @@ class Application(tornado.web.Application):
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
-
-            url(r"/myform", MyFormHandler, name="myform")
         ]
         settings = dict(
             website_title=u"剑哥相册",
@@ -63,7 +62,6 @@ class Application(tornado.web.Application):
                         "Bottom":uimodules.Bottom,
                         "Dialog":uimodules.Dialog},
             xsrf_cookies=False,
-            #cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
             cookie_secret="1234567892015neuee",
             login_url="/login",
             debug=True,
@@ -94,17 +92,11 @@ class HomeHandler(BaseHandler):
     def get(self):
         self.render("home.html")
 
-
-class MyFormHandler(BaseHandler):
+class MyAlbumsHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        self.write('<html><body><form action="/myform" method="POST">'
-                   '<input type="text" name="message">'
-                   '<input type="submit" value="Submit">'
-                   '</form></body></html>')
+        self.redirect("/u/123456/albums")
 
-    def post(self):
-        self.set_header("Content-Type", "text/plain")
-        self.write("success!")
 
 from feedhandler import FeedHandler
 from userhandler import *
