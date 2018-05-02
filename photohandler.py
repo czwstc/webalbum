@@ -146,3 +146,5 @@ class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
     def post(self):
+        pass
+        
