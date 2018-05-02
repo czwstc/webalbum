@@ -8,7 +8,7 @@
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron text-center">
   <div class="container">
-    <h1 class="jumbotron-heading">用户id为 {{albums["user_id"]}} 的相册</h1>
+    <h1 class="jumbotron-heading">{{ user.name }}的相册</h1>
     <p class="lead text-muted">用户的简要描述.</p>
     <p>
       <a href="#" class="btn btn-primary my-2">给我打赏</a>
@@ -47,56 +47,23 @@
     </ul>
 
     <div class="row">
-  {% for i in range(0,3)%}
-  <div class="col-md-4">
-    <div class="card mb-4 box-shadow">
-      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" src="/static/album1.jpg" height="225" width="225"  alt="Card image cap">
-      <div class="card-body">
-        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
-        <p class="card-text">{{ albums["album_description"] }}</p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
-          </div>
-          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% end %}
-  {% for i in range(0,3)%}
-  <div class="col-md-4">
-    <div class="card mb-4 box-shadow">
+  {% for album in albums%}
+  <div class="col-md-3">
+    <div class="card mb-3 box-shadow">
       <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" height="225" width="225"  alt="Card image cap">
       <div class="card-body">
-        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
-        <p class="card-text">{{ albums["album_description"] }}</p>
+        <p class="card-text">{{ album.album_name }}</p>
+        <p class="card-text">{{ album.album_description }}</p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
           </div>
-          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
         </div>
-      </div>
-    </div>
-  </div>
-  {% end %}
-  {% for i in range(0,3)%}
-  <div class="col-md-4">
-    <div class="card mb-4 box-shadow">
-      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" src="/static/none160.gif" height="225" width="225"  alt="Card image cap">
-      <div class="card-body">
-        <p class="card-text">{{ albums["album_name"] }} {{i}}</p>
-        <p class="card-text">{{ albums["album_description"] }}</p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
+        <div class="card-footer">
+            <small class="text-muted">最近上传 {{ locale.format_date(album.edit_date, full_format=True, shorter=True) }}</small>
+            <small class="text-muted">创建于{{ locale.format_date(album.create_date, full_format=True, shorter=True) }}</small>
           </div>
-          <small class="text-muted">{{2 * i}} 张照片，创建于{{ albums["create_date"] }}</small>
-        </div>
       </div>
     </div>
   </div>

@@ -43,18 +43,14 @@ Charset='utf8'
 
 db={}
 class AlbumsListHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self,uid):
-    #数据库端未建立，暂时用一个测试用的数据作为返回数据
-        test = dict(
-            album_id=1,
-            album_name="超哥的小时候",
-            album_description="一些小学初中大学的照片~",
-            cover_id=1,
-            user_id=uid,
-            create_date="20180422",
-            edit_date="20180422"
-        )
-        self.render("albums.html",albums=test)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
+        if not album:
+            self.redirect("/albums/new")
+        self.render("albums.html",user=user,albums=album)
+        
 
 
 class AlbumCreateHandler(BaseHandler):

@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="/">{{ escape(handler.settings["website_title"]) }}</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
@@ -13,15 +13,15 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="/login" class="btn btn-link btn-lg" role="button" aria-pressed="true">
+        <a href="/login" class="nav-link">
           <span></span> 登录</a>
       </li>
       <li>
-        <a href="/logout" class="btn btn-link btn-lg" role="button" aria-pressed="true">
+        <a href="/logout" class="nav-link">
           <span></span> 登出</a>
       </li>
       <li>
-        <a href="/signup" class="btn btn-outline-primary btn-lg" role="button" aria-pressed="true">
+        <a href="/signup" class="nav-link">
           <span></span> 注册</a>
       </li>
     </ul>
