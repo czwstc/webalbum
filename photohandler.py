@@ -153,6 +153,3 @@ class PhotoDeleteHandler(BaseHandler):
         self.write("delete!!")
         pho.deletephoto(photo)'''
 
-class FeedHandler(BaseHandler):
-    def get(self):
-        self.write("传说中的朋友圈")

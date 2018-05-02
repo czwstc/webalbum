@@ -129,7 +129,7 @@ class MyFormHandler(BaseHandler):
         self.set_header("Content-Type", "text/plain")
         self.write("success!")
 
-
+from feedhandler import FeedHandler
 from userhandler import *
 from albumhandler import *
 from photohandler import *
