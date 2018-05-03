@@ -46,21 +46,27 @@ class AlbumsListHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self,uid):
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
-        album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
-        if not album:
-            self.redirect("/albums/new")
-        self.render("albums.html",user=user,albums=album)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
+            if not album:
+                self.redirect("/albums/new")
+            else:
+                self.render("albums.html",user=user,albums=album)
         
 
 
 class AlbumCreateHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
         #__TODO:替换为创建相册的模板html文件
         self.render("AlbumCreate.html")
-
+    @tornado.web.authenticated
     def post(self):
         #__TODO:处理通过post方法传来的创建相册的表单
         self.set_header("Content-Type", "text/plain")
+        user_id=self.get_current_user
         length1=len(db)+1
         name=self.get_body_argument("name")
         discription=self.get_body_argument("discribe")
@@ -72,11 +78,10 @@ class AlbumCreateHandler(BaseHandler):
         print(length1)
 
         album = albumPO()
-        #album.set_album_id(1) 
         album.set_album_name(self.get_body_argument("name"))
         album.set_album_description(self.get_body_argument("discribe"))
-        album.set_cover_id(11)
-        album.set_user_id(111)
+        album.set_cover_id(1)
+        album.set_user_id(int(self.current_user.id))
         album.set_create_date(now_date)
         album.set_edit_date(now_date)
         alb = albumDAO(self.db)
@@ -85,7 +90,8 @@ class AlbumCreateHandler(BaseHandler):
         #self.db.commit()
         #self.db.close()
 
-        self.write("success!")
+        user_id=self.get_current_user
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
 
 class AlbumEditHandler(BaseHandler):
     def get(self,uid,albumid):
