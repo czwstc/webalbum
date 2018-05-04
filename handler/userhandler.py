@@ -44,24 +44,24 @@ class AuthCreateHandler(BaseHandler):
 
 
 class AuthLoginHandler(BaseHandler):
-    username="暂未登录"
     def get(self):
         # If there are no authors, redirect to the account creation page.
-        if not self.any_author_exists():
-            #self.redirect("/auth/create")
-            self.render("login.html", error=None)    #临时
+        if self.get_current_user():
+            username=self.get_current_user().name
         else:
-            self.render("login.html", error=None)
-        
-
+            username="none"
+        if not self.any_author_exists():
+            self.render("login.html", error=None,username=username)    #临时
+        else:
+            self.render("login.html", error=None,username=username)    #临时
+                
     @gen.coroutine
 
     
     def post(self):
         author = self.db.get("SELECT * FROM users WHERE email = %s",
                              self.get_argument("email"))
-        username = self.db.get("SELECT name FROM users WHERE email = %s",    #去数据库里用email找用户名
-                             self.get_argument("email"))
+        
         if not author:
             self.render("login.html", error="email not found")
             return
@@ -71,7 +71,7 @@ class AuthLoginHandler(BaseHandler):
         #    tornado.escape.utf8(author.hashed_password))
         if hashed_password == author.hashed_password:
             self.set_secure_cookie("cur_user", str(author.id))    #demo里面是blogdemo_user，这里要改
-            self.redirect(self.get_argument("next", "/"))
+            self.redirect(self.get_argument("next", "/login"))
         else:
             self.render("login.html", error="incorrect password")
 
