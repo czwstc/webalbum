@@ -24,7 +24,7 @@
         </div>
     </div>
 	{%for i in range(len(feed))[::-1]%}
-	<div class="row clearfix" id= {{feed[i]['feed_id']}}>
+	<div class="row clearfix" id= {{feed[i]['time']}}>
 		<div class="col-md-2 column">
 		</div>
 		<div class="col-md-8 column" style="background-color:#eeeeee">
@@ -67,7 +67,7 @@
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-3 column">
-							 <button type="button" class="btn btn-primary btn-sm">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}',{{len(feed_d[i])}})" style="color: white;">点赞{{len(feed_d[i])}}人</button>
 						</div>
 
 						<div class="col-md-3 column">
@@ -143,8 +143,41 @@
         </div>
     </div>
 </div>
+  <script type="text/javascript">
+	  function change(arg,num)
+	  {
+	         var color = document.getElementById(arg).style.color
+	         if( color == "black")
+	         {
+	             document.getElementById(arg).style.color ="white";
+	         }
+	         else
+	         {
+	            document.getElementById(arg).style.color ="black";
+	         }
+	        var name =  document.getElementById(arg).name;//从第一个输入框里获取数据
+                $.ajax({
+                    url:"/feed",//调用的是这个url对应的那个Handler
+                    type:"POST",//Post方法
+                    data:{color:color,name:name},//要往服务器传递的数据
+                    success:function(arg){
+                        alert(data[0])
+                        var obj = jQuery.parseJSON(arg);//获取的数据一般为json格式，用这个方法来解析数据
+                        console.log(obj.status);
+                        console.log(obj.message);
+                        console.log(obj.data);
+                        alert(data[0])
+                        document.getElementById(arg).innerText = "点赞"+obj.data[0]+"人"
+                    },
+                    error:function(){//获取失败
+                        console.log("failed");
+                    }
+                });
+	  }
+  </script>
   <script src="https://code.jquery.com/jquery.js"></script>
-  <!-- 包括所有已编译的插件 -->
+  <!-- 包括所有已编译的插件 <script src="/static/js/jquery-3.3.1.min.js"></script>-->
+
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
