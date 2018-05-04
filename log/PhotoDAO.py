@@ -1,13 +1,10 @@
-import pymysql
-import PhotoPO
-import DataBaseManager
+from log.PhotoPO import PhotoPO
 
-class PhotoDAO(PhotoPO.PhotoPO):
+class PhotoDAO:
     def __init__(self, conn):
         self.cn = conn
 
     def addphoto(self,photo):
-        #photo_id = photo.get_photo_id()
         photo_name = photo.get_photo_name()
         update_date = photo.get_update_date()
         album_id = photo.get_album_id()
