@@ -34,9 +34,9 @@ class Application(tornado.web.Application):
         handlers = [
             url(r"/", HomeHandler),
             #注册，登录，登出，账号删除，个人资料展示页面，个人资料编辑-丰玉霖
-            url(r"/signup", UserCreateHandler),
-            url(r"/login", UserLoginHandler),
-            url(r"/logout", UserLogoutHandler),
+            url(r"/signup", AuthCreateHandler),
+            url(r"/login", AuthLoginHandler),
+            url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
             url(r"/u/([0-9]+)/profile/*", ProfileHandler),
             url(r"/u/([0-9]+)/profile/edit", ProfileEditHandler),

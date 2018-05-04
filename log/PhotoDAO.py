@@ -36,7 +36,14 @@ class PhotoDAO:
             self.cn.execute(sql)
         except:
             print("updata error")
-
+    def getlastid(self):
+        sql = "select top 1  from photo order by photo_id desc"
+        try:
+            self.cn.execute(sql)
+            lastid = self.cn.query(sql)
+        except:
+            print("updata error")
+        return lastid
     def querypublicPhoto(self):
         l_photoid=[]
         l_userid=[]

@@ -40,9 +40,10 @@ class PhotosUploadHandler(BaseHandler):
                 up.write(meta['body'])
         
         return(filename)
-    def suolue(self,file):
+    def suolue(self,file,id):
         infile = file
-        outfile = os.path.splitext(infile)[0] +".png" #这句是去掉jpg
+        outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        print(os.path.splitext(infile)[0]) 
         if infile != outfile:
             try:
                 im = Image.open(infile)
@@ -77,7 +78,6 @@ class PhotosUploadHandler(BaseHandler):
         photo.set_file_name(file_name)
         photo.set_is_public(is_public)
         pho= PhotoDAO(self.db)
-        self.write("insert!!")
         pho.addphoto(photo)
 
     @tornado.web.authenticated
@@ -111,47 +111,48 @@ class PhotosUploadHandler(BaseHandler):
         d[1]=[update_date,album_id,photo_name2,photo_description2,v2,gk2]
         d[2]=[update_date,album_id,photo_name3,photo_description3,v3,gk3]
         d[3]=[update_date,album_id,photo_name4,photo_description4,v4,gk4]
-        #string='d'+str(0)+str(d[0])
-        #print (string)
-
-        file="static\\\images"
+        file="static\\\\images"
         file_user=file
-        file_suolue=file+"\\\min"
+        file_suolue=file+"\\\\min"
         self.mkdir(file)
-        #self.fileup('fk0',file_user)
         a=self.get_body_argument("fk3")
         if not a:
             print("a=Null")
         if(v1=='1'):
-            filename_1=self.fileup('fk0',file_user)
+            filename_1=self.fileup('fk0',file_user)#上传到static\\images
             path_filename_1=file_user+"\\\\"+filename_1
-            self.suolue(path_filename_1)
-            self.write("finished!!")
             print(path_filename_1)
-            #string_replace(path_filename_1,"\\","/")
             self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_1))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_1,al[-1]['photo_id'])
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=file_user+"\\"+filename_2
-            self.write("finished!!")
+            path_filename_2=file_user+"\\\\"+filename_2
             print(path_filename_2)
-            #string_replace(path_filename_2,"\\","/")
             self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_2))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_2,al[-1]['photo_id'])
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=file_user+"\\"+filename_3
-            self.write("finished!!")
+            path_filename_3=file_user+"\\\\"+filename_3
             print(path_filename_3)
-            #string_replace(path_filename_3,"\\","/")
             self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_3))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_3,al[-1]['photo_id'])
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=file_user+"\\"+filename_4
-            self.write("finished!!")
+            path_filename_4=file_user+"\\\\"+filename_4
             print(path_filename_4)
-            #string_replace(path_filename_4,"\\","/")
             self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
-        self.write("succeddful!!")
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_4))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_4,al[-1]['photo_id'])
+        sum=int(v1)+int(v2)+int(v3)+int(v4)
+        albumname= self.db.query("SELECT album_name FROM album WHERE album_id ='%d' "%(album_id))
+        self.render("successful_upload.html",sum=sum,albumname=albumname[0]['album_name'])
 
 class PhotoHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
