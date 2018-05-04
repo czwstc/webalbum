@@ -5,10 +5,9 @@ class DianzanDAO:
         self.cn = conn
 
     def adddianzan(self, dianzan):
-        photo_id = dianzan.get_photo_id()
         user_id = dianzan.get_user_id()
         feed_id = dianzan.get_feed_id()
-        sql = "insert into dianzan(feed_id, photo_id, user_id,time) values('%d', '%d','%d','%s')" % (feed_id, photo_id, user_id, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        sql = "insert into dianzan(feed_id, user_id) values('%d','%d')" % (feed_id, user_id)
         try:
             # cursor = self.cn.cursor()
             self.cn.execute(sql)
@@ -26,22 +25,19 @@ class DianzanDAO:
         except:
             print("delete error")
 
-
-    def querydianzanByPhoto(self, comment):
-        l = []
-        photo_id = comment.get_photo_id()
-        user_id = comment.get_user_id()
-        sql = "SELECT * FROM comment where photo_id = '%d', user_id = '%d'" % (photo_id, user_id)
+    def deletedianzan2(self, feed_id, user_id):
+        sql = "delete from dianzan where feed_id = '%d'and user_id = '%d'" % (feed_id, user_id)
         try:
-            rs = self.cn.query.fetchall()
-            for dianzan in rs:
-                dianzan = DianzanPO()
-                dianzan.set_photo_id(dianzan[0])
-                dianzan.set_user_id(dianzan[1])
-                dianzan.set_time(dianzan[2])
-                l.append(dianzan)
+            # cursor = self.cn.cursor()
+            self.cn.execute(sql)
+            # cursor.close()
         except:
-            print("query error")
-        return l
+            print("delete error")
+
+    def querydianzancount(self, feed_id):
+        sql = "SELECT * FROM dianzan where feed_id = '%d'" % feed_id
+        rs = self.cn.query(sql)
+        return len(rs)
+
 
 
