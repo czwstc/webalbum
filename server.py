@@ -13,6 +13,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
+import tornado.locale
 import unicodedata
 import uimodules
 
@@ -33,9 +34,9 @@ class Application(tornado.web.Application):
         handlers = [
             url(r"/", HomeHandler),
             #注册，登录，登出，账号删除，个人资料展示页面，个人资料编辑-丰玉霖
-            url(r"/signup", UserCreateHandler),
-            url(r"/login", UserLoginHandler),
-            url(r"/logout", UserLogoutHandler),
+            url(r"/signup", AuthCreateHandler),
+            url(r"/login", AuthLoginHandler),
+            url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
             url(r"/u/([0-9]+)/profile/*", ProfileHandler),
             url(r"/u/([0-9]+)/profile/edit", ProfileEditHandler),
@@ -67,6 +68,7 @@ class Application(tornado.web.Application):
             debug=True,
         )
         super(Application, self).__init__(handlers, **settings)
+        tornado.locale.set_default_locale("zh_CN")
         # Have one global connection to the blog DB across all handlers
         self.db = torndb.Connection(
             host=options.mysql_host, database=options.mysql_database,
@@ -93,10 +95,10 @@ class HomeHandler(BaseHandler):
         self.render("home.html")
 
 
-from feedhandler import FeedHandler
-from userhandler import *
-from albumhandler import *
-from photohandler import *
+from handler.feedhandler import FeedHandler
+from handler.userhandler import *
+from handler.albumhandler import *
+from handler.photohandler import *
 
 def main():
     tornado.options.parse_command_line()

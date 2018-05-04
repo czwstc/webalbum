@@ -6,67 +6,64 @@
 
 {% block body %}
 <!--这里是个人相册标题和概要-->
-<section class="jumbotron text-center">
+<section class="jumbotron">
   <div class="container">
-    <h1 class="jumbotron-heading">{{ user.name }}的相册</h1>
-    <p class="lead text-muted">用户的简要描述.</p>
+    <h1 class="jumbotron-heading">{{ user.name }}</h1>
     <p>
       <a href="#" class="btn btn-primary my-2">给我打赏</a>
       <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
     </p>
   </div>
 </section>
-
 <!--这里是相册列表主框架-->
+
+
 <div class="album py-5 bg-light">
   <div class="container">
-    <!--这里是相册菜单-->
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link" href="./profile">简介</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="">相册集</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">照片墙</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">视频</a>
-      </li>
-      
-      <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">操作</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="/albums/new">新建相册</a>
-            <a class="dropdown-item" href="/photos/new">上传照片</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">更多设置</a>
-          </div>
-        </li>
-    </ul>
-
-    <div class="row">
-  {% for album in albums%}
-  <div class="col-md-3">
-    <div class="card mb-3 box-shadow">
-      <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=没有封面" height="225" width="225"  alt="Card image cap">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" href="./profile">关于我</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">所有照片</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="">相册</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">视频</a>
+          </li>
+        </ul>
+      </div>
+      <div class="container mt-4 ml-2 text-left">
+        <a class="btn btn-outline-primary btn-sm" href="/photos/new" role="button">上传照片</a>
+        <a class="btn btn-outline-secondary btn-sm" href="/albums/new" role="button">新建相册</a>
+      </div>
       <div class="card-body">
-        <p class="card-text">{{ album.album_name }}</p>
-        <p class="card-text">{{ album.album_description }}</p>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary">查看</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">编辑</button>
+        <!-- <h5 class="card-title">空空如也</h5>
+        <p class="card-text">你看起来好像还没有相册，先建个相册吧</p>
+        <a href="#" class="btn btn-primary">新建相册</a> -->
+        <div class="row">
+          {% for album in albums%}
+          <div class="col-md-3">
+            <div class="card mb-3 box-shadow">
+              <img class="card-img-top" data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" src="/static/images/min/{{album.cover_id}}.jpg" alt="Card image cap">
+              <div class="card-body">
+                <a class="card-title" href="/u/{{ user.id }}/albums/{{ album.album_id }}">{{ album.album_name }}</a>
+                <p>
+                  <small class="card-text text-muted">最近上传 {{locale.format_date(album.edit_date, shorter=True,relative=True) }}</small>
+                </p>
+              </div>
+            </div>
           </div>
+          {% end %}
         </div>
-        <div class="card-footer">
-            <small class="text-muted">最近上传 {{ locale.format_date(album.edit_date, full_format=True, shorter=True) }}</small>
-            <small class="text-muted">创建于{{ locale.format_date(album.create_date, full_format=True, shorter=True) }}</small>
-          </div>
       </div>
     </div>
   </div>
-  {% end %}
-</div>
+  </div>
 {% end %}
+
+
