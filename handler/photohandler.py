@@ -54,6 +54,7 @@ class PhotosUploadHandler(BaseHandler):
                 im.save(outfile)
             except IOError:
                 print("cannot create thumbnail for", infile)
+        return im
 
     def mkdir(self,path):  
   
@@ -114,9 +115,9 @@ class PhotosUploadHandler(BaseHandler):
         #string='d'+str(0)+str(d[0])
         #print (string)
 
-        file="static\\\images"
+        file="static\\\\images"
         file_user=file
-        file_suolue=file+"\\\min"
+        file_suolue=file+"\\\\min"
         self.mkdir(file)
         #self.fileup('fk0',file_user)
         a=self.get_body_argument("fk3")
@@ -128,28 +129,26 @@ class PhotosUploadHandler(BaseHandler):
             self.suolue(path_filename_1)
             self.write("finished!!")
             print(path_filename_1)
-            #string_replace(path_filename_1,"\\","/")
             self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
+            #albums = self.db.query("SELECT photo_id FROM photo WHERE photo_id = %d", uid)
+            print ("ID of last record is ", int(cursor.lastrowid))
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=file_user+"\\"+filename_2
+            path_filename_2=file_user+"\\\\"+filename_2
             self.write("finished!!")
             print(path_filename_2)
-            #string_replace(path_filename_2,"\\","/")
             self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=file_user+"\\"+filename_3
+            path_filename_3=file_user+"\\\\"+filename_3
             self.write("finished!!")
             print(path_filename_3)
-            #string_replace(path_filename_3,"\\","/")
             self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=file_user+"\\"+filename_4
+            path_filename_4=file_user+"\\\\"+filename_4
             self.write("finished!!")
             print(path_filename_4)
-            #string_replace(path_filename_4,"\\","/")
             self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
         self.write("succeddful!!")
 
