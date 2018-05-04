@@ -116,8 +116,8 @@ class PhotosUploadHandler(BaseHandler):
         file_suolue=file+"\\\\min"
         self.mkdir(file)
         a=self.get_body_argument("fk3")
-        if not a:
-            print("a=Null")
+        print(a)
+        print(v1)
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)#上传到static\\images
             path_filename_1=file_user+"\\\\"+filename_1

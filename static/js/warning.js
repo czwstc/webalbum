@@ -9,12 +9,13 @@ with (field)
   else {return true}
   }
 }
-function validate_required1(field,box,alerttxt)
+function validate_required1(field,b,alerttxt)
 {
-with (field)
+with (field,b)
   {
-  if (field.value^box.value)
-    {alert(alerttxt);return false}
+  if ((b.value==1))
+    {
+      alert(alerttxt);return false}
   else {return true}
   }
 }
@@ -25,7 +26,8 @@ with (thisform)
   {
   if (validate_required(xia,"albums must be filled out!")==false)
     {xia.focus();return false}
-  if (validate_required1(fk1,box1,"请选择照片或者改为不上传")==false)
-    {fk1.focus();return false}
+  if (validate_required1(fk0,box1,"请选择照片或者改为不上传")==false)
+    {fk0.focus();return false}
+    
   }
 }
