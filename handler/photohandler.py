@@ -18,10 +18,9 @@ import shutil
 import time
 import unicodedata
 import uimodules
-import pymysql
-from DataBaseManager import DataBaseManager
-from PhotoPO import PhotoPO
-from PhotoDAO import PhotoDAO
+
+from log.PhotoPO import PhotoPO
+from log.PhotoDAO import PhotoDAO
 from basehandler import BaseHandler
 d={} 
 define("album_id", default=233,  type=int)

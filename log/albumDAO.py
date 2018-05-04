@@ -1,13 +1,10 @@
-import pymysql
-from albumPO import albumPO
-from DataBaseManager import DataBaseManager
+from log.albumPO import albumPO
 
 class albumDAO:
     def __init__(self, conn):
         self.cn = conn
 
     def addalbum(self, album):
-        #album_id = album.get_album_id()
         album_name = album.get_album_name()
         album_description = album.get_album_description()
         cover_id = album.get_cover_id()

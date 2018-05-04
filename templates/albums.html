@@ -53,7 +53,7 @@
               <div class="card-body">
                 <a class="card-title" href="/u/{{ user.id }}/albums/{{ album.album_id }}">{{ album.album_name }}</a>
                 <p>
-                  <small class="card-text text-muted">最近上传于 {{ locale.format_date(album.edit_date, shorter=True) }}</small>
+                  <small class="card-text text-muted">最近上传 {{locale.format_date(album.edit_date, shorter=True,relative=True) }}</small>
                 </p>
               </div>
             </div>
