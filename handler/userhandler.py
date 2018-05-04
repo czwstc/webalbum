@@ -44,6 +44,7 @@ class AuthCreateHandler(BaseHandler):
 
 
 class AuthLoginHandler(BaseHandler):
+    username="暂未登录"
     def get(self):
         # If there are no authors, redirect to the account creation page.
         if not self.any_author_exists():
