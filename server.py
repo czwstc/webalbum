@@ -20,7 +20,7 @@ import uimodules
 
 from tornado.options import define, options
 
-define("port", default=8888, help="run on the given port", type=int)
+define("port", default=8887, help="run on the given port", type=int)
 define("mysql_host", default="47.104.68.55:3306", help="blog database host")
 define("mysql_database", default="test", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
@@ -34,9 +34,9 @@ class Application(tornado.web.Application):
         handlers = [
             url(r"/", HomeHandler),
             #注册，登录，登出，账号删除，个人资料展示页面，个人资料编辑-丰玉霖
-            url(r"/signup", UserCreateHandler),
-            url(r"/login", UserLoginHandler),
-            url(r"/logout", UserLogoutHandler),
+            url(r"/signup", AuthCreateHandler),
+            url(r"/login", AuthLoginHandler),
+            url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
             url(r"/u/([0-9]+)/profile/*", ProfileHandler),
             url(r"/u/([0-9]+)/profile/edit", ProfileEditHandler),
