@@ -22,15 +22,16 @@ import uimodules
 from log.PhotoPO import PhotoPO
 from log.PhotoDAO import PhotoDAO
 from basehandler import BaseHandler
-d={} 
-define("album_id", default=233,  type=int)
-define("user_id", default=501, type=int)
+
 class PhotosUploadHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        #__TODO:替换为上传相片的模板html文件
-        self.render("shangchuan.html")
+        uid=self.current_user.id
+        albums = self.db.query("SELECT album_id,album_name FROM album WHERE user_id = %s", uid)
+        self.render("shangchuan.html",albums=albums)
+
     def fileup(self,file,path):
-        upload_path=os.path.join(os.path.dirname(__file__),path)  #文件的暂存路径
+        upload_path=os.path.join(os.path.dirname(__file__),"..\\",path)  #文件的暂存路径
         file_metas=self.request.files[file]    #提取表单中‘name’为‘file’的文件元数据
         for meta in file_metas:
             filename=meta['filename']
@@ -39,30 +40,22 @@ class PhotosUploadHandler(BaseHandler):
                 up.write(meta['body'])
         
         return(filename)
-    def suolue(self,file):
+    def suolue(self,file,id):
         infile = file
-        outfile = os.path.splitext(infile)[0] + ".JPEG"+".png" #这句是去掉jpg
+        outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        print(os.path.splitext(infile)[0]) 
         if infile != outfile:
             try:
                 im = Image.open(infile)
                 print(im.size)
-                height_img = int(im.size[1]*750/im.size[0])
-                size = (750, height_img)
+                height_img = int(im.size[1]*400/im.size[0])
+                size = (400, height_img)
                 print(size)
                 im.thumbnail(size)
                 im.save(outfile)
             except IOError:
                 print("cannot create thumbnail for", infile)
-        '''缩略图用法
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <div class="col-sm-3 col-md-2">
-        <a href="#" class="thumbnail">
-            <img src="E:\vs\home\yulin1.jpg"
-                 alt="通用的占位符缩略图">
-        </a>
-    </div>'''
+
     def mkdir(self,path):  
   
         folder = os.path.exists(path)  
@@ -74,7 +67,6 @@ class PhotosUploadHandler(BaseHandler):
   
         else:  
             print ("---  There is this folder!  ---"  )
-        #test
           
     def info_up(self,album_id,user_id,photo_name,photo_description,update_date,file_name,is_public):                                #数据插入数据库
         photo = PhotoPO()
@@ -86,13 +78,15 @@ class PhotosUploadHandler(BaseHandler):
         photo.set_file_name(file_name)
         photo.set_is_public(is_public)
         pho= PhotoDAO(self.db)
-        self.write("insert!!")
         pho.addphoto(photo)
+
+    @tornado.web.authenticated
     def post(self):
-        #__TODO:处理通过post方法传来的上传相片的表单
-        self.set_header("Content-Type", "text/plain")
+        d={}
+
         update_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())#获取当前时间
-        album_id=self.get_body_argument("xia")#上传到哪个相册
+        user_id=self.current_user.id
+        album_id=int(self.get_body_argument("xia"))#上传到哪个相册
    
         photo_name1=self.get_body_argument("nameee1") #照片名字
         photo_name2=self.get_body_argument("nameee2") 
@@ -103,7 +97,7 @@ class PhotosUploadHandler(BaseHandler):
         photo_description2=self.get_body_argument("description2") 
         photo_description3=self.get_body_argument("description3") 
         photo_description4=self.get_body_argument("description4") 
-#唐永剑 注释 测试
+
         v1=self.get_body_argument("box1")#是否上传
         v2=self.get_body_argument("box2")
         v3=self.get_body_argument("box3")
@@ -117,47 +111,48 @@ class PhotosUploadHandler(BaseHandler):
         d[1]=[update_date,album_id,photo_name2,photo_description2,v2,gk2]
         d[2]=[update_date,album_id,photo_name3,photo_description3,v3,gk3]
         d[3]=[update_date,album_id,photo_name4,photo_description4,v4,gk4]
-        #string='d'+str(0)+str(d[0])
-        #print (string)
-
-        file="upload_img"
-        file_user=file+"\\\yulin" 
-        file_user_suolue=file_user+"\\\suoleue"
-        self.mkdir(file_user)
-        #self.fileup('fk0',file_user)
+        file="static\\\\images"
+        file_user=file
+        file_suolue=file+"\\\\min"
+        self.mkdir(file)
         a=self.get_body_argument("fk3")
         if not a:
             print("a=Null")
         if(v1=='1'):
-            filename_1=self.fileup('fk0',file_user)
+            filename_1=self.fileup('fk0',file_user)#上传到static\\images
             path_filename_1=file_user+"\\\\"+filename_1
-            self.suolue(path_filename_1)
-            self.write("finished!!")
             print(path_filename_1)
-            #string_replace(path_filename_1,"\\","/")
-            self.info_up(options.album_id,options.user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
+            self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_1))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_1,al[-1]['photo_id'])
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=file_user+"\\"+filename_2
-            self.write("finished!!")
+            path_filename_2=file_user+"\\\\"+filename_2
             print(path_filename_2)
-            #string_replace(path_filename_2,"\\","/")
-            self.info_up(options.album_id,options.user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
+            self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_2))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_2,al[-1]['photo_id'])
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=file_user+"\\"+filename_3
-            self.write("finished!!")
+            path_filename_3=file_user+"\\\\"+filename_3
             print(path_filename_3)
-            #string_replace(path_filename_3,"\\","/")
-            self.info_up(options.album_id,options.user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
+            self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_3))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_3,al[-1]['photo_id'])
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=file_user+"\\"+filename_4
-            self.write("finished!!")
+            path_filename_4=file_user+"\\\\"+filename_4
             print(path_filename_4)
-            #string_replace(path_filename_4,"\\","/")
-            self.info_up(options.album_id,options.user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
-        self.write("succeddful!!")
+            self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_4))
+            print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
+            self.suolue(path_filename_4,al[-1]['photo_id'])
+        sum=int(v1)+int(v2)+int(v3)+int(v4)
+        albumname= self.db.query("SELECT album_name FROM album WHERE album_id ='%d' "%(album_id))
+        self.render("successful_upload.html",sum=sum,albumname=albumname[0]['album_name'])
 
 class PhotoHandler(BaseHandler):
     def get(self,uid,albumid,photoid):

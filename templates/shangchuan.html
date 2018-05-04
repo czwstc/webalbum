@@ -13,9 +13,9 @@
                 <p class="pc" align="center" > 上传到：
                         <input id="myalbum" name="xia" list="albums" />
                         <datalist id="albums">
-                          <option value="1">
-                          <option value="2">
-                          <option value="3">
+                          {% for album in albums %}
+                          <option value="{{album.album_id}}">{{album.album_name}}</option>
+                            {% end %}
                         </datalist>
                 </p>
         </div>
