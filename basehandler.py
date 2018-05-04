@@ -27,4 +27,4 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.db.get("SELECT * FROM users WHERE id = %s", int(user_id))
 
     def any_author_exists(self):
-        return bool(self.db.get("SELECT * FROM authors LIMIT 1"))
+        return bool(self.db.get("SELECT * FROM users LIMIT 1"))
