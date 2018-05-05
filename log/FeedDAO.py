@@ -46,7 +46,7 @@ class FeedDAO:
             photo_rs = self.cn.query(sql)
             feed_photo = feed_photo + photo_rs
 
-        return feed, feed_comment, feed_dianzan,feed_photo
+        return feed, feed_comment, feed_dianzan, feed_photo
 
 
 
