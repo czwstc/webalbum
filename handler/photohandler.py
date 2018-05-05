@@ -157,8 +157,6 @@ class PhotosUploadHandler(BaseHandler):
 
 class PhotoHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
-        self.write("单个相片页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
-        self.write("相册中相片列表，用户id,相册id分别为"+str(uid)+" "+str(albumid))
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
