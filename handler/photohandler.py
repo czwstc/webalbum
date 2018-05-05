@@ -121,7 +121,7 @@ class PhotosUploadHandler(BaseHandler):
         print(v2)
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)#上传到static\\images
-            path_filename_1=file_user+"\\\\"+filename_1
+            path_filename_1=filename_1
             print(path_filename_1)
             self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_1))
@@ -129,7 +129,7 @@ class PhotosUploadHandler(BaseHandler):
             self.suolue(path_filename_1,al[-1]['photo_id'])
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=file_user+"\\\\"+filename_2
+            path_filename_2=filename_2
             print(path_filename_2)
             self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_2))
@@ -137,7 +137,7 @@ class PhotosUploadHandler(BaseHandler):
             self.suolue(path_filename_2,al[-1]['photo_id'])
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=file_user+"\\\\"+filename_3
+            path_filename_3=filename_3
             print(path_filename_3)
             self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_3))
@@ -145,7 +145,7 @@ class PhotosUploadHandler(BaseHandler):
             self.suolue(path_filename_3,al[-1]['photo_id'])
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=file_user+"\\\\"+filename_4
+            path_filename_4=filename_4
             print(path_filename_4)
             self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_4))
