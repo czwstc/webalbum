@@ -20,7 +20,7 @@ import uimodules
 
 from tornado.options import define, options
 
-define("port", default=8888, help="run on the given port", type=int)
+define("port", default=8886, help="run on the given port", type=int)
 define("mysql_host", default="47.104.68.55:3306", help="blog database host")
 define("mysql_database", default="test", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
@@ -78,7 +78,7 @@ class Application(tornado.web.Application):
 
     def maybe_create_tables(self):
         try:
-            self.db.get("SELECT COUNT(*) from jcuser;")
+            self.db.get("SELECT COUNT(*) from users;")
         except MySQLdb.ProgrammingError:
             subprocess.check_call(['mysql',
                                    '--host=' + options.mysql_host,
