@@ -66,7 +66,7 @@
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-3 column">
-							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}',{{len(feed_d[i])}})" style="color: white;">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}')" style="color: white;">点赞{{len(feed_d[i])}}人</button>
 						</div>
 
 						<div class="col-md-3 column">
@@ -77,7 +77,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 column">
-					<p align="right">
+					<p align="right" id="mmylike{{i}}">
 						{%if len(feed_d[i])>=3%}
                         {{len(feed_d[i][0])}},{{len(feed_d[i][1])}}...已赞
 						{%elif len(feed_d[i])==1%}
@@ -143,7 +143,7 @@
     </div>
 </div>
   <script type="text/javascript">
-	  function change(arg,num)
+	  function change(arg)
 	  {
 	         var color = document.getElementById(arg).style.color
 	         if( color == "black")
@@ -159,13 +159,25 @@
                     url:"/feed",//调用的是这个url对应的那个Handler
                     type:"POST",//Post方法
                     data:{color:color,name:name},//要往服务器传递的数据
-                    success:function(arg){
-                        var obj = jQuery.parseJSON(arg);//获取的数据一般为json格式，用这个方法来解析数据
+                    success:function(data){
+                        var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
                         console.log(obj.status);
                         console.log(obj.message);
                         console.log(obj.data);
-                        alert(obj.data[0])
-                        $("#mylike3").text("black");
+                        $("#"+arg).html("点赞"+obj.data.length+"人");
+                        if(obj.data.length >= 3)
+                        {
+                             $("#m"+arg).html(obj.data[0]+","+obj.data[1]+"...已赞");
+                        }
+                        else if(obj.data.length == 2)
+                        {
+                             $("#m"+arg).html(obj.data[0]+","+obj.data[1]+"已赞");
+                        }
+                        else if(obj.data.length == 1)
+                        {
+                             $("#m"+arg).html(obj.data[0]+"已赞");
+                        }
+
                     },
                     error:function(){//获取失败
                         console.log("failed");
