@@ -38,7 +38,7 @@ class Application(tornado.web.Application):
             url(r"/login", AuthLoginHandler),
             url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
-            url(r"/pro/*", ProfileHandler),
+            url(r"/pro", ProfileHandler),
             url(r"/proedit", ProfileEditHandler),
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
