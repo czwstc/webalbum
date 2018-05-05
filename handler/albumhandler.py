@@ -24,28 +24,19 @@ from basehandler import BaseHandler
 class AlbumsListHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self,uid):
-        if self.get_current_user():
-            username=self.get_current_user().name
-        else:
-            username="未登录"
-        self.render("AlbumCreate.html",username=username)
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
         else:
             album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
-            self.render("albums.html",username=username,user=user,albums=album)
+            self.render("albums.html",user=user,albums=album)
         
 
 
 class AlbumCreateHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        if self.get_current_user():
-            username=self.get_current_user().name
-        else:
-            username="未登录"
-        self.render("AlbumCreate.html",username=username)
+        self.render("AlbumCreate.html")
 
     @tornado.web.authenticated
     def post(self):

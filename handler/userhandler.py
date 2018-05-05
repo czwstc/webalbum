@@ -17,8 +17,6 @@ import shutil
 import time
 import unicodedata
 import uimodules
-import pymysql
-#from DataBaseManager import DataBaseManager
 
 from basehandler import BaseHandler
 
