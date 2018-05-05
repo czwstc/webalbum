@@ -26,7 +26,6 @@ from basehandler import BaseHandler
 class AuthCreateHandler(BaseHandler):
     def get(self):
         self.render("create_author.html")
-    username="feng"
     @gen.coroutine
     def post(self):    #提交表单，上传数据库
         # if self.any_author_exists():
@@ -49,7 +48,7 @@ class AuthLoginHandler(BaseHandler):
         if self.get_current_user():
             username=self.get_current_user().name
         else:
-            username="none"
+            username="未登录"
         if not self.any_author_exists():
             self.render("login.html", error=None,username=username)    #临时
         else:
@@ -73,12 +72,12 @@ class AuthLoginHandler(BaseHandler):
             self.set_secure_cookie("cur_user", str(author.id))    #demo里面是blogdemo_user，这里要改
             self.redirect(self.get_argument("next", "/login"))
         else:
-            self.render("login.html", error="incorrect password")
+            self.render("login.html", error="incorrect password",username="未登录")
 
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
-        self.clear_cookie("blogdemo_user")
+        self.clear_cookie("cur_user")
         self.redirect(self.get_argument("next", "/"))
 
 
