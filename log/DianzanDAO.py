@@ -37,7 +37,11 @@ class DianzanDAO:
     def querydianzancount(self, feed_id):
         sql = "SELECT * FROM dianzan where feed_id = '%d'" % feed_id
         rs = self.cn.query(sql)
-        return len(rs)
+        user_id = []
+        for i in rs:
+            user_id.append(i['user_id'])
+        print(user_id)
+        return user_id
 
 
 
