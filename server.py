@@ -78,7 +78,7 @@ class Application(tornado.web.Application):
 
     def maybe_create_tables(self):
         try:
-            self.db.get("SELECT COUNT(*) from users;")
+            self.db.get("SELECT COUNT(*) from jcuser;")
         except MySQLdb.ProgrammingError:
             subprocess.check_call(['mysql',
                                    '--host=' + options.mysql_host,
