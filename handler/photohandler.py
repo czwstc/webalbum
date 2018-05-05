@@ -157,11 +157,6 @@ class PhotosUploadHandler(BaseHandler):
 
 class PhotoHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
-        self.write("单个相片页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
-
-class PhotosListHandler(BaseHandler):
-    def get(self,uid,albumid):
-        self.write("相册中相片列表，用户id,相册id分别为"+str(uid)+" "+str(albumid))
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
@@ -172,6 +167,18 @@ class PhotosListHandler(BaseHandler):
         #route=list()
         #route=["/static/img/homebg.jpg","/static/img/roll.jpg","/static/images/min/1.jpg"]
         self.render("PhotoListHandler.html",route=route)
+
+class PhotosListHandler(BaseHandler):
+    def get(self,uid,albumid):
+        print("photoslist")
+        album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid,uid)
+            self.render("photos_show.html",user=user,photos=photo,album=album)
+
 class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
