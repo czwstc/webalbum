@@ -46,14 +46,11 @@ class AuthCreateHandler(BaseHandler):
 class AuthLoginHandler(BaseHandler):
     def get(self):
         # If there are no authors, redirect to the account creation page.
-        if self.get_current_user():
-            username=self.get_current_user().name
-        else:
-            username="未登录"
+        
         if not self.any_author_exists():
-            self.render("login.html", error=None,username=username)    #临时
+            self.render("login.html", error=None)    #临时
         else:
-            self.render("login.html", error=None,username=username)    #临时
+            self.render("login.html", error=None)    #临时
                 
     @gen.coroutine
 
@@ -71,9 +68,9 @@ class AuthLoginHandler(BaseHandler):
         #    tornado.escape.utf8(author.hashed_password))
         if hashed_password == author.hashed_password:
             self.set_secure_cookie("cur_user", str(author.id))    #demo里面是blogdemo_user，这里要改
-            self.redirect(self.get_argument("next", "/login"))
+            self.redirect(self.get_argument("next", "/albums"))
         else:
-            self.render("login.html", error="incorrect password",username="未登录")
+            self.render("login.html", error="incorrect password")
 
 
 class AuthLogoutHandler(BaseHandler):
@@ -107,8 +104,7 @@ class ProfileHandler(BaseHandler):
 class ProfileEditHandler(BaseHandler):
     def get(self):
         if self.get_current_user():
-            username=self.get_current_user().name
-            self.render("proedit.html",username=username)
+            self.render("proedit.html")
         else:
             self.render("login.html")    #已登录的可以修改，没登陆的先去登录
     @gen.coroutine
@@ -120,4 +116,5 @@ class ProfileEditHandler(BaseHandler):
         
         sql="UPDATE users SET user_description = '%s' WHERE id = '%s'" % (user_description,id)
         self.db.execute(sql)
+        self.redirect(self.get_argument("next", "/pro"))
         
