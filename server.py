@@ -34,12 +34,12 @@ class Application(tornado.web.Application):
         handlers = [
             url(r"/", HomeHandler),
             #注册，登录，登出，账号删除，个人资料展示页面，个人资料编辑-丰玉霖
-            url(r"/signup", UserCreateHandler),
-            url(r"/login", UserLoginHandler),
-            url(r"/logout", UserLogoutHandler),
+            url(r"/signup", AuthCreateHandler),
+            url(r"/login", AuthLoginHandler),
+            url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
-            url(r"/u/([0-9]+)/profile/*", ProfileHandler),
-            url(r"/u/([0-9]+)/profile/edit", ProfileEditHandler),
+            url(r"/pro/*", ProfileHandler),
+            url(r"/proedit", ProfileEditHandler),
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
             url(r"/albums/new", AlbumCreateHandler, name="AlbumCreate"),
@@ -78,7 +78,7 @@ class Application(tornado.web.Application):
 
     def maybe_create_tables(self):
         try:
-            self.db.get("SELECT COUNT(*) from users;")
+            self.db.get("SELECT COUNT(*) from jcuser;")
         except MySQLdb.ProgrammingError:
             subprocess.check_call(['mysql',
                                    '--host=' + options.mysql_host,
