@@ -167,7 +167,7 @@ class PhotosListHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
         else:
             route= list(self.db.query("SELECT * FROM photo WHERE user_id = %s and album_id =%s", uid,albumid))
-            self.write(str(route))
+        #    self.write(str(route))
 
         #route=list()
         #route=["/static/img/homebg.jpg","/static/img/roll.jpg","/static/images/min/1.jpg"]
