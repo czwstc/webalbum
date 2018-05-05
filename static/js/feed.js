@@ -1,6 +1,4 @@
-//点赞区的js
-function change(arg)
-  {
+function change(arg){
          var color = document.getElementById(arg).style.color;
          if( color == "black")
          {
@@ -37,13 +35,12 @@ function change(arg)
                     {
                          $("#m"+arg).html("");
                     }
-
                 },
                 error:function(){//获取失败
                     console.log("failed");
                 }
             });
-  }
+ }
 //评论区的js
 //兼容火狐、IE8
 //显示遮罩层
@@ -52,19 +49,19 @@ var p_feed_id;
 var comment_location;
 function showMask(c_location, feed_id, photo_id){
     $('#mask').modal('show');
-    $("#textarea").val("")
-    c_feed_id = feed_id
-    p_feed_id = photo_id
+    $("#textarea").val("");
+    c_feed_id = feed_id;
+    p_feed_id = photo_id;
     comment_location = c_location;
-    console.log(feed_id)
-    console.log(c_location)
+    console.log(feed_id);
+    console.log(c_location);
 }
 //隐藏遮罩层
 function hideMask(flag){
    if(flag == '1')
    {
         var comment_body = $("#textarea").val();
-        console.log(comment_body)
+        console.log(comment_body);
         $.ajax({
             url:"/feed",//调用的是这个url对应的那个Handler
             type:"POST",//Post方法
@@ -75,9 +72,9 @@ function hideMask(flag){
                 console.log(obj.message);
                 console.log(obj.comment_bodys[0]);
                 console.log(obj.user_ids[0]);
-                var len = obj.comment_bodys.length
-                $("#"+ comment_location).html("评论"+len+"条")
-                $("#comments"+String(c_feed_id))).append("<p>"+user_ids[len-1]+":"+comment_bodys[len-1]+"</p>")
+                var len = obj.comment_bodys.length;
+                $("#"+ comment_location).html("评论"+len+"条");
+                $("#comments"+String(c_feed_id)).append("<p>"+obj.user_ids[len-1]+":"+obj.comment_bodys[len-1]+"</p>");
             },
             error:function(){//获取失败
                 console.log("failed");

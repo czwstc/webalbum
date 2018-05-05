@@ -2,9 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>照片编辑</title>
+	<title>朋友圈</title>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="theme1.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -46,19 +45,14 @@
 				{{feed[i]['reason']}}
             </p>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="thumbnail">
-						<img alt="300x200" src={{feed_p[i]['file_name']}} />
+						<img alt="800x600" src="/static/img/timg.jpg" />
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="thumbnail">
-						<img alt="300x200" src={{feed_p[i]['file_name']}} />
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="thumbnail">
-						<img alt="300x200" src={{feed_p[i]['file_name']}} />
+						<img alt="800x600" src="/static/img/timg.jpg" />
 					</div>
 				</div>
 			</div>
@@ -68,7 +62,6 @@
 						<div class="col-md-3 column">
 							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}')" style="color: white;">点赞{{len(feed_d[i])}}人</button>
 						</div>
-
 						<div class="col-md-3 column">
 							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')">评论{{len(feed_c[i])}}条</button>
 						</div>
