@@ -78,6 +78,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 column">
+					{% if like_flag[i] == 1%}
 					<p align="right" id="mmylike{{i}}">
 						{%if len(feed_d[i])>=3%}
                         {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
@@ -87,6 +88,18 @@
 						{{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}已赞
 						{%end%}
                     </p>
+					{%end%}
+					{%if like_flag[i] == 0%}
+					<p align="right" id="mmylike2{{i}}">
+						{%if len(feed_d[i])>=3%}
+                        {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
+						{%elif len(feed_d[i])==1%}
+						{{feed_d[i][0]['user_name']}}已赞
+						{%elif len(feed_d[i])==2%}
+						{{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}已赞
+						{%end%}
+                    </p>
+					{%end%}
 				</div>
 			</div>
 			<div class="row clearfix">
