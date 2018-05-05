@@ -34,10 +34,11 @@ class AuthCreateHandler(BaseHandler):
         #    bcrypt.hashpw, tornado.escape.utf8(self.get_argument("password")),
         #    bcrypt.gensalt())
         author_id = self.db.execute(
-            "INSERT INTO users (email, name, hashed_password) "
-            "VALUES (%s, %s, %s)",
+            "INSERT INTO users (email, name, hashed_password,nickname,user_description) "
+            "VALUES (%s, %s, %s,%s,%s)",
             self.get_argument("email"), self.get_argument("name"),
-            self.get_argument("password"))
+            self.get_argument("password"), self.get_argument("nickname"),
+            self.get_argument("user_description"))
         self.set_secure_cookie("cur_user", str(author_id))
         self.redirect(self.get_argument("next", "/"))
 
@@ -91,8 +92,14 @@ class UserDeleteHandler(BaseHandler):
         pass
 
 class ProfileHandler(BaseHandler):
-    def get(self,uid):
-        self.write("id:" + str(uid)+" 个人资料展示页面")
+    def get(self):
+        if self.get_current_user():
+            username=self.get_current_user().name
+            user_description=self.get_current_user().user_description
+        else:
+            username="未登录"
+            user_description="这个用户很懒，什么也没有留下"
+        self.render("pro.html", error="",username=username,user_description=user_description)
 
 
 class ProfileEditHandler(BaseHandler):
