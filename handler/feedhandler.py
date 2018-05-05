@@ -45,6 +45,6 @@ class FeedHandler(BaseHandler):
             dianzandao.deletedianzan2(int(d_feed_id), 1)
             print("成功删除")
         num = dianzandao.querydianzancount(int(d_feed_id))
-        data = {'status': 0, 'message': 'successfully', 'data': [num, ]}  # 封装数据
+        data = {'status': 0, 'message': 'successfully', 'data': [num]}  # 封装数据
         self.write(json.dumps(data))
 
