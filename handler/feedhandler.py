@@ -33,18 +33,40 @@ class FeedHandler(BaseHandler):
         self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p)
 
     def post(self):
+        #点赞部分处理
         dianzandao = DianzanDAO(self.db)
         dianzan = DianzanPO()
         d_feed_id = self.get_argument("name", None)
-        if self.get_argument("color", None) == 'white':
-            dianzan.set_feed_id(int(d_feed_id))
-            dianzan.set_user_id(1)
-            dianzandao.adddianzan(dianzan)
-            print("成功添加")
-        else:
-            dianzandao.deletedianzan2(int(d_feed_id), 1)
-            print("成功删除")
-        num = dianzandao.querydianzancount(int(d_feed_id))
-        data = {'status': 0, 'message': 'successfully', 'data': num}  # 封装数据
-        self.write(json.dumps(data))
+        if d_feed_id:
+            if self.get_argument("color", None) == 'white':
+                dianzan.set_feed_id(int(d_feed_id))
+                dianzan.set_user_id(1)
+                dianzandao.adddianzan(dianzan)
+                print("成功添加")
+            else:
+                dianzandao.deletedianzan2(int(d_feed_id), 1)
+                print("成功删除")
+            num = dianzandao.querydianzancount(int(d_feed_id))
+            data = {'status': 0, 'message': 'successfully', 'data': num}  # 封装数据
+            self.write(json.dumps(data))
+
+        #评论部分处理
+        commentdao = CommentDAO(self.db)
+        comment = CommentPO()
+        p_feed_id = self.get_argument("p_feed_id", None)
+        c_feed_id = self.get_argument("c_feed_id", None)
+        comment_body = self.get_argument("comment_body", None)
+        if comment_body:
+            comment.set_user_id(1)
+            comment.set_feed_id(int(c_feed_id))
+            comment.set_photo_id(int(p_feed_id))
+            comment.set_comment_body(comment_body)
+            commentdao.addcomment(comment)
+            comment_bodys, user_ids = commentdao.queryCommentByFeedId(int(c_feed_id))
+            data = {'status': 0, 'message': 'successfully', 'comment_bodys': comment_bodys, 'user_ids': user_ids}  # 封装数据
+            self.write(json.dumps(data))
+
+
+
+
 

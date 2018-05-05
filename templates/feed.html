@@ -42,7 +42,7 @@
 			       </h4>
             </div>
             </div>
-			<p style="word-break:break-all">
+			<p style="word-break:break-all" class="p1">
 				{{feed[i]['reason']}}
             </p>
 			<div class="row">
@@ -70,7 +70,7 @@
 						</div>
 
 						<div class="col-md-3 column">
-							 <button type="button" class="btn btn-primary btn-sm">评论{{len(feed_c[i])}}人</button>
+							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')">评论{{len(feed_c[i])}}条</button>
 						</div>
                         <div class="col-md-6 column">
                         </div>
@@ -89,13 +89,13 @@
 				</div>
 			</div>
 			<div class="row clearfix">
-				<div class="col-md-12 column">
+				<div class="col-md-12 column" id = "comments{{feed[i]['feed_id']}}">
 					<h5>
 						这里是评论区
 					</h5>
-					{%for comment in feed_c[i]%}
-					<p>
-						{{comment['user_id']}}:{{comment['comment_body']}}
+					{%for comment_index in range(len(feed_c[i]))%}
+					<p style="word-break:break-all" >
+						{{feed_c[i][comment_index]['user_id']}}:{{feed_c[i][comment_index]['comment_body']}}
 					</p>
 					{%end%}
 
@@ -108,86 +108,12 @@
     <p>
     </p>
     {%end%}
- <div class="row clearfix">
-        <div class="col-md-2 column">
-        </div>
-    <div class="col-md-8 column" align="center">
-			<ul class="pagination">
-				<li>
-					 <a href="#">Prev</a>
-				</li>
-				<li>
-					 <a href="#">1</a>
-				</li>
-				<li>
-					 <a href="#">2</a>
-				</li>
-				<li>
-					 <a href="#">3</a>
-				</li>
-				<li>
-					 <a href="#">4</a>
-				</li>
-				<li>
-					 <a href="#">5</a>
-				</li>
-				<li>
-					 <a href="#">Next</a>
-				</li>
-			</ul>
-		</div>
-		</div>
-
-     <div class="col-md-2 column">
-        </div>
-    </div>
 </div>
-  <script type="text/javascript">
-	  function change(arg)
-	  {
-	         var color = document.getElementById(arg).style.color
-	         if( color == "black")
-	         {
-	             document.getElementById(arg).style.color ="white";
-	         }
-	         else
-	         {
-	            document.getElementById(arg).style.color ="black";
-	         }
-	        var name =  document.getElementById(arg).name;//从第一个输入框里获取数据
-                $.ajax({
-                    url:"/feed",//调用的是这个url对应的那个Handler
-                    type:"POST",//Post方法
-                    data:{color:color,name:name},//要往服务器传递的数据
-                    success:function(data){
-                        var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
-                        console.log(obj.status);
-                        console.log(obj.message);
-                        console.log(obj.data);
-                        $("#"+arg).html("点赞"+obj.data.length+"人");
-                        if(obj.data.length >= 3)
-                        {
-                             $("#m"+arg).html(obj.data[0]+","+obj.data[1]+"...已赞");
-                        }
-                        else if(obj.data.length == 2)
-                        {
-                             $("#m"+arg).html(obj.data[0]+","+obj.data[1]+"已赞");
-                        }
-                        else if(obj.data.length == 1)
-                        {
-                             $("#m"+arg).html(obj.data[0]+"已赞");
-                        }
+{% module Dialog() %}
 
-                    },
-                    error:function(){//获取失败
-                        console.log("failed");
-                    }
-                });
-	  }
-  </script>
   <script src="https://code.jquery.com/jquery.js"></script>
   <!-- 包括所有已编译的插件 <script src="/static/js/jquery-3.3.1.min.js"></script>-->
-
+  <script src="/static/js/feed.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 

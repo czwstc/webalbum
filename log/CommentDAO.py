@@ -41,22 +41,18 @@ class CommentDAO:
         except:
             print("insert error")
 
-    def queryCommentByPhoto(self, feed_id):
-        l = []
+    def queryCommentByFeedId(self, feed_id):
+        comment_body = []
+        user_id = []
         try:
             sql = "SELECT * FROM comment where feed_id = '%d'" % feed_id
             rs = self.cn.query(sql)
-            for comment in rs:
-                mycomment = CommentPO()
-                mycomment.set_id(comment['_Id'])
-                mycomment.set_photo_id(comment['photo_id'])
-                mycomment.set_user_id(comment['user_id'])
-                mycomment.set_comment_body(comment['comment_body'])
-                mycomment.set_time(comment['time'])
-                l.append(mycomment)
+            for i in rs:
+                comment_body.append(i['comment_body'])
+                user_id.append(i['user_id'])
         except:
             print("query error")
-        return l
+        return comment_body, user_id
 
 
     def queryCommentByPhoto_ids(self, photo_id):
