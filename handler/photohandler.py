@@ -191,24 +191,19 @@ class PhotosListHandler(BaseHandler):
         if not user:
             raise tornado.web.HTTPError(404)
         else:
-            print(albumid)
             photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid,uid)
-            print(photo)
             self.render("photos_show.html",user=user,photos=photo,album=album)
 
 class Photosall(BaseHandler):
     def get(self,uid):
-        print("photoslist")
         photo=[]
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
-        print(album)
         if not user:
             raise tornado.web.HTTPError(404)
         else:
             for albumid in album :
                 photo.append(self.db.query("SELECT * FROM photo WHERE album_id = %s ", albumid.album_id))
-            print(photo)
             self.render("photosall.html",user=user,photos=photo)
 
 class PhotoDeleteHandler(BaseHandler):
