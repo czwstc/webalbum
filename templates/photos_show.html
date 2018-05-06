@@ -5,6 +5,35 @@
 <link rel="stylesheet" href="/static/css/album.css">
 {% end %}
 
+<style>
+    #header {
+        background-color:black;
+        color:white;
+        text-align:center;
+        padding:5px;
+    }
+    #nav {
+        line-height:20px;
+        background-color:#b11c1c;
+        height:300px;
+        width:350px;
+        float:right;
+        padding:10px; 
+    }
+    #section {
+        width:350px;
+        float:left;
+        padding:10px; 
+    }
+    #footer {
+        background-color:black;
+        color:white;
+        clear:both;
+        text-align:center;
+        padding:5px; 
+    }
+    </style>
+    
 {% block body %}
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron">
@@ -17,11 +46,17 @@
   </div>
 </section>
 <!--这里是相册列表主框架-->
+  <div id="nav">
+    相册描述:<br>
+    {{ album["album_description"] }}<br>
+    </div>    
 
-
-<div class="photos py-5 bg-light">
+<div class="photos py-5 bg-light">      
   <div class="container">
     <div class="card text-center">
+        <div class="container mt-4 ml-2 text-left">
+            <a class="btn btn-outline-primary btn-sm" href="/photos/new" role="button">上传照片</a>
+          </div>
 <!--       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
@@ -46,7 +81,9 @@
         <!-- <h5 class="card-title">空空如也</h5>
         <p class="card-text">你看起来好像还没有相册，先建个相册吧</p>
         <a href="#" class="btn btn-primary">新建相册</a> -->
+        
         <div class="row">
+            
           {% for photo in photos%}
           <div class="col-md-3">
             <div class="card mb-3 box-shadow">
@@ -56,7 +93,7 @@
               <div class="card-body align-items-left">
                 <div class="d-flex justify-content-between align-items-left">
                   <div class="btn-group">
-                      <a href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}/delete" class="btn btn-primary">删除</a>
+                      <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}/delete" role="button">删除</a>
                       <small class="text-muted">创建于{{ photo.update_date }}</small>
                   </div>
                   
