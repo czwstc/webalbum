@@ -59,11 +59,10 @@ class Application(tornado.web.Application):
 
         ]
         settings = dict(
-            website_title=u"剑哥相册",
+            website_title=u"NEU相册",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Navbar":uimodules.Navbar,
-                        "Bottom":uimodules.Bottom,
                         "Dialog":uimodules.Dialog},
             xsrf_cookies=False,
             cookie_secret="1234567892015neuee",
