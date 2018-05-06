@@ -50,7 +50,7 @@ class AuthCreateHandler(BaseHandler):
                 hashed_password, self.get_argument("nickname"),
                 self.get_argument("user_description"))
             self.set_secure_cookie("cur_user", str(author_id))
-            self.redirect(self.get_argument("next", "/login"))
+            self.redirect(self.get_argument("next", "/"))
         else:
             self.render("create_author.html")
 
