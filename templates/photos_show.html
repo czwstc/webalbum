@@ -5,9 +5,19 @@
 <link rel="stylesheet" href="/static/css/album.css">
 {% end %}
 
-
-
 {% block body %}
+<script src="{{static_url("js/jquery-3.2.1.min.js")}}"></script> {#jquery文件位置#}
+<script type="text/javascript">
+
+    function DoAjax(){
+        var temp = 1;//从第一个输入框里获取数据
+        $.ajax({
+            url:"/u/1/albums/1/1/delete",//调用的是这个url对应的那个Handler
+            type:"POST",//Post方法
+            data:{dat:temp},//要往服务器传递的数据
+        });
+    }
+</script>
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron">
   <div class="container">
@@ -19,11 +29,22 @@
   </div>
 </section>
 <!--这里是相册列表主框架-->
+<div >
 
+</div>    
 
-<div class="photos py-5 bg-light">
+<div class="photos py-5 bg-light">      
   <div class="container">
     <div class="card text-center">
+        <div class="container mt-4 ml-2 text-left">
+            <a class="btn btn-outline-primary btn-sm" href="/photos/new" role="button">上传照片</a>
+            <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/edit" role="button">编辑相册</a>
+            {% if photos%}
+            <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photos[0].photo_id }}" role="button">幻灯片浏览</a>
+            {% end %}
+            相册描述: {{ album["album_description"] }}
+            共有照片  {{ len(photos) }}<br>
+          </div>
 <!--       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
@@ -48,17 +69,19 @@
         <!-- <h5 class="card-title">空空如也</h5>
         <p class="card-text">你看起来好像还没有相册，先建个相册吧</p>
         <a href="#" class="btn btn-primary">新建相册</a> -->
+        
         <div class="row">
+            
           {% for photo in photos%}
           <div class="col-md-3">
             <div class="card mb-3 box-shadow">
               <a href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}">
-              <img class="card-img-top" data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" height="180" width="300 "src="/static/img/{{photo.file_name}}" alt="Card image cap"></a>
+              <img class="card-img-top" data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" height="180" width="300 "src="/static/images/{{photo.file_name}}" alt="Card image cap"></a>
               
               <div class="card-body align-items-left">
                 <div class="d-flex justify-content-between align-items-left">
                   <div class="btn-group">
-                      <a href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}" class="btn btn-primary">编辑</a>
+                      <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}/delete" role="button">删除</a>
                       <small class="text-muted">创建于{{ photo.update_date }}</small>
                   </div>
                   

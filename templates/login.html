@@ -4,18 +4,6 @@
 {% if error %}
 <span style="color: red">Error: {{ error }}</span><p>
 {% end %}
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <ul class="nav navbar-nav navbar-right">
-    <li>
-      <a href="/pro" class="nav-link">
-        <span></span> {{username}}</a>
-    </li>
-  </ul>
-  </nav>
-</header>
-
-
 <form action="/login" method="POST">
   <div class="form-group">
      <label for="inputEmail4" class="col-sm-2 control-label">Email</label>

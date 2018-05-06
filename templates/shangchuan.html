@@ -11,12 +11,11 @@
         
         <div class="jumbotron">
                 <p class="pc" align="center" > 上传到：
-                        <input id="myalbum" name="xia" list="albums" />
-                        <datalist id="albums">
+                        <select id="albums" name="xia">
                           {% for album in albums %}
                           <option value="{{album.album_id}}">{{album.album_name}}</option>
                             {% end %}
-                        </datalist>
+                        </select>
                 </p>
         </div>
         <p class="q1" align="center"></p>

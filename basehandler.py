@@ -13,10 +13,10 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import unicodedata
-import uimodules
+#import uimodules    #互相import怕出问题
 
 class BaseHandler(tornado.web.RequestHandler):
-    @property
+    @property    #只读属性
     def db(self):
         return self.application.db
 
