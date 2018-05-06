@@ -1,18 +1,9 @@
 {% extends "base.html" %}
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <ul class="nav navbar-nav navbar-right">
-    <li>
-      <a href="/login" class="nav-link">
-        <span></span> {{username}}</a>
-    </li>
-  </ul>
-  </nav>
-</header>
+
 
 {% block head %}
-<title>{{ escape(handler.settings["website_title"]) }}</title>
+<title>{{ user.nickname }}的相册 | {{ escape(handler.settings["website_title"]) }}</title>
 <link rel="stylesheet" href="/static/css/album.css">
 {% end %}
 
@@ -20,11 +11,18 @@
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron">
   <div class="container">
-    <h1 class="jumbotron-heading">{{ user.name }}</h1>
-    <p>
-      <a href="#" class="btn btn-primary my-2">给我打赏</a>
-      <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
-    </p>
+    <div class="row">
+      <div class="col-md-2">
+        <img class="rounded-circle" src="/static/img/face.jpg" alt="Generic placeholder image" width="140" height="140">
+      </div>
+      <div class="col-md-10">
+        <h1 class="jumbotron-heading text-white">{{ user.nickname }}</h1>
+        <p>
+          <a href="#" class="btn btn-primary my-2">给我打赏</a>
+          <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 <!--这里是相册列表主框架-->
@@ -39,47 +37,63 @@
             <a class="nav-link" href="./profile">关于我</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">所有照片</a>
+            <a class="nav-link" href="/u/{{ user.id }}/photos/">所有照片</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="">相册</a>
+            <a class="nav-link active" href="/u/{{ user.id }}/albums/">相册</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled">视频</a>
           </li>
         </ul>
       </div>
-      <div class="container mt-4 ml-2 text-left">
+      {%if albums %}
+      <div class="container mt-4 mr-4 text-right">
         <a class="btn btn-outline-primary btn-sm" href="/photos/new" role="button">上传照片</a>
         <a class="btn btn-outline-secondary btn-sm" href="/albums/new" role="button">新建相册</a>
       </div>
+      {%end%}
       <div class="card-body">
-        <!-- <h5 class="card-title">空空如也</h5>
+        {%if not albums %}
+        <h5 class="card-title">空空如也</h5>
         <p class="card-text">你看起来好像还没有相册，先建个相册吧</p>
-        <a href="#" class="btn btn-primary">新建相册</a> -->
+        <a href="/albums/new" class="btn btn-primary">新建相册</a>
+        {% else %}
+
         <div class="row">
           {% for album in albums%}
           <div class="col-md-3">
+
+
             <div class="card mb-3 box-shadow">
-<<<<<<< HEAD
-              <img class="card-img-top" data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" src="/static/images/min/{{album.cover_id}}.jpg" alt="Card image cap">
-=======
-              <img class="card-img-top" data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" height="180" width="300 "src="/static/images/min/{{album.cover_id}}.jpg" alt="Card image cap">
->>>>>>> e674de7061b9c92d551a0b928bd3441607a2317c
+              <a href="/u/{{ user.id }}/albums/{{ album.album_id }}">
+                <img class="card-img-top " data-src="holder.js/100px180?theme=thumb&bg=55595c&fg=eceeef&text=缩略图" height="180" width="300 "
+                  src="/static/images/min/{{album.cover_id}}.jpg" alt="Card image cap">
+              </a>
+
               <div class="card-body">
-                <a class="card-title" href="/u/{{ user.id }}/albums/{{ album.album_id }}">{{ album.album_name }}</a>
-                <p>
-                  <small class="card-text text-muted">最近上传 {{locale.format_date(album.edit_date, shorter=True,relative=True) }}</small>
-                </p>
+                <a class="card-title font-weight-bold" href="/u/{{ user.id }}/albums/{{ album.album_id }}">{{ album.album_name }}</a>
+                <div class="mt-2 d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/edit">编辑</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/delete">删除</a>
+                  </div>
+                  <small class="text-muted">{{ photos_num[album.album_id] }}张照片</small>
+                </div>
+              </div>
+
+
+              <div class="card-footer">
+                <small>最近上传 {{ locale.format_date(album.edit_date, full_format=True, shorter=True,relative=False ) }}</small>
               </div>
             </div>
           </div>
-          {% end %}
+          {% end %} {% end %}
         </div>
       </div>
     </div>
   </div>
-  </div>
+</div>
 {% end %}
 
 

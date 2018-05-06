@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>朋友圈</title>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>照片编辑</title>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="theme1.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -31,7 +34,7 @@
             <div class="row clearfix" >
                 <div class="col-md-6 column" >
                    <h4>
-					   {{feed[i]['user_name']}}
+					   {{feed[i]['name']}}
 			       </h4>
                 </div>
 
@@ -47,12 +50,12 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="thumbnail">
-						<img alt="800x600" src="/static/img/timg.jpg" />
+						<img alt="800x600" src="/static/img/{{feed_p[i]['file_name']}}" />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="thumbnail">
-						<img alt="800x600" src="/static/img/timg.jpg" />
+						<img alt="800x600" src="/static/img/{{feed_p[i]['file_name']}}" />
 					</div>
 				</div>
 			</div>
@@ -60,7 +63,12 @@
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-3 column">
-							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}')" style="color: white;">点赞{{len(feed_d[i])}}人</button>
+							{% if like_flag[i] == 1%}
+							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}')" style="color: black;">点赞{{len(feed_d[i])}}人</button>
+							{%end%}
+							{%if like_flag[i] == 0%}
+							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike2{{i}}')" style="color: white;">点赞{{len(feed_d[i])}}人</button>
+							{%end%}
 						</div>
 						<div class="col-md-3 column">
 							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')">评论{{len(feed_c[i])}}条</button>
@@ -70,15 +78,28 @@
 					</div>
 				</div>
 				<div class="col-md-6 column">
+					{% if like_flag[i] == 1%}
 					<p align="right" id="mmylike{{i}}">
 						{%if len(feed_d[i])>=3%}
-                        {{len(feed_d[i][0])}},{{len(feed_d[i][1])}}...已赞
+                        {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
 						{%elif len(feed_d[i])==1%}
-						{{len(feed_d[i][0])}}已赞
+						{{feed_d[i][0]['user_name']}}已赞
 						{%elif len(feed_d[i])==2%}
-						{{len(feed_d[i][0])}},{{len(feed_d[i][1])}}已赞
+						{{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}已赞
 						{%end%}
                     </p>
+					{%end%}
+					{%if like_flag[i] == 0%}
+					<p align="right" id="mmylike2{{i}}">
+						{%if len(feed_d[i])>=3%}
+                        {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
+						{%elif len(feed_d[i])==1%}
+						{{feed_d[i][0]['user_name']}}已赞
+						{%elif len(feed_d[i])==2%}
+						{{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}已赞
+						{%end%}
+                    </p>
+					{%end%}
 				</div>
 			</div>
 			<div class="row clearfix">
@@ -88,7 +109,7 @@
 					</h5>
 					{%for comment_index in range(len(feed_c[i]))%}
 					<p style="word-break:break-all" >
-						{{feed_c[i][comment_index]['user_id']}}:{{feed_c[i][comment_index]['comment_body']}}
+						{{feed_c[i][comment_index]['user_name']}}:{{feed_c[i][comment_index]['comment_body']}}
 					</p>
 					{%end%}
 
@@ -102,12 +123,25 @@
     </p>
     {%end%}
 </div>
-{% module Dialog() %}
-
-  <script src="https://code.jquery.com/jquery.js"></script>
+<div class="modal fade" id="mask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<h4 align="center">留下你的足迹吧</h4>
+			<div align="center">
+			<textarea id="textarea" rows="4" cols="80"></textarea>
+			</div>
+			<div align="center">
+			    <input type="button"  onclick="hideMask('0')" value="取消" class="btn btn-primary btn-sm">
+			    <input type="button"  onclick="hideMask('1')" value="发表" class="btn btn-primary btn-sm">
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+   </div>
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
   <!-- 包括所有已编译的插件 <script src="/static/js/jquery-3.3.1.min.js"></script>-->
-  <script src="/static/js/feed.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/feed.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
-
 </html>

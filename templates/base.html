@@ -4,7 +4,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
     <link rel="icon" href="/static/favicon.ico">
@@ -19,8 +18,7 @@
     </main>
     <!--这里是页面底部-->
     {% block bottom %}{% end %}
-     {% module Bottom() %}
-  
+    {% include common/module-bottom.html %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
@@ -28,6 +26,6 @@
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/holder.min.js"></script>
-    <script src="/static/js/warning.js"></script>
-  </body>
+    <script src="/static/js/upload_warning.js"></script>
+      </body>
 </html>

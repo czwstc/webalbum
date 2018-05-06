@@ -30,7 +30,16 @@ class FeedHandler(BaseHandler):
         entries = []
         feeddao = FeedDAO(self.db)
         feed, feed_c, feed_d, feed_p = feeddao.queryfeeds()
-        self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p)
+        user_id = self.get_current_user().id
+        like_flag = []
+        for i in range(len(feed)):
+            for j in feed_d[i]:
+                if j['user_id'] == user_id:
+                    like_flag.append(1)
+                    break
+                like_flag.append(0)
+        print(like_flag)
+        self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p, like_flag=like_flag)
 
     def post(self):
         #点赞部分处理
@@ -40,11 +49,11 @@ class FeedHandler(BaseHandler):
         if d_feed_id:
             if self.get_argument("color", None) == 'white':
                 dianzan.set_feed_id(int(d_feed_id))
-                dianzan.set_user_id(1)
+                dianzan.set_user_id(self.get_current_user().id)
                 dianzandao.adddianzan(dianzan)
                 print("成功添加")
             else:
-                dianzandao.deletedianzan2(int(d_feed_id), 1)
+                dianzandao.deletedianzan2(int(d_feed_id), self.get_current_user().id)
                 print("成功删除")
             num = dianzandao.querydianzancount(int(d_feed_id))
             data = {'status': 0, 'message': 'successfully', 'data': num}  # 封装数据
@@ -57,13 +66,13 @@ class FeedHandler(BaseHandler):
         c_feed_id = self.get_argument("c_feed_id", None)
         comment_body = self.get_argument("comment_body", None)
         if comment_body:
-            comment.set_user_id(1)
+            comment.set_user_id(self.get_current_user().id)
             comment.set_feed_id(int(c_feed_id))
             comment.set_photo_id(int(p_feed_id))
             comment.set_comment_body(comment_body)
             commentdao.addcomment(comment)
             comment_bodys, user_ids = commentdao.queryCommentByFeedId(int(c_feed_id))
-            data = {'status': 0, 'message': 'successfully', 'comment_bodys': comment_bodys, 'user_ids': user_ids}  # 封装数据
+            data = {'status': 0, 'message': 'successfully', 'comment_bodys': comment_bodys, 'user_name': self.get_current_user().name}  # 封装数据
             self.write(json.dumps(data))
 
 

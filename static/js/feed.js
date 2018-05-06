@@ -71,10 +71,10 @@ function hideMask(flag){
                 console.log(obj.status);
                 console.log(obj.message);
                 console.log(obj.comment_bodys[0]);
-                console.log(obj.user_ids[0]);
+                console.log(obj.user_name);
                 var len = obj.comment_bodys.length;
                 $("#"+ comment_location).html("评论"+len+"条");
-                $("#comments"+String(c_feed_id)).append("<p>"+obj.user_ids[len-1]+":"+obj.comment_bodys[len-1]+"</p>");
+                $("#comments"+String(c_feed_id)).append("<p>"+obj.user_name+":"+obj.comment_bodys[len-1]+"</p>");
             },
             error:function(){//获取失败
                 console.log("failed");

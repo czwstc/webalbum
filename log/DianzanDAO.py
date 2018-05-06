@@ -38,10 +38,15 @@ class DianzanDAO:
         sql = "SELECT * FROM dianzan where feed_id = '%d'" % feed_id
         rs = self.cn.query(sql)
         user_id = []
+        user_name = []
         for i in rs:
             user_id.append(i['user_id'])
-        print(user_id)
-        return user_id
+        for i in user_id:
+            sql = "select * from users where id = '%d'" % int(i)
+            rs = self.cn.query(sql)
+            user_name.append(rs[0]['name'])
+        print(user_name)
+        return user_name
 
 
 

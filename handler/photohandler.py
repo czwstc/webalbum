@@ -41,7 +41,7 @@ class PhotosUploadHandler(BaseHandler):
         
         return(filename)
     def suolue(self,file,id):
-        infile = file
+        infile = file   
         outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
         print(os.path.splitext(infile)[0]) 
         if infile != outfile:
@@ -115,43 +115,54 @@ class PhotosUploadHandler(BaseHandler):
         file_user=file
         file_suolue=file+"\\\\min"
         self.mkdir(file)
-        a=self.get_body_argument("fk3")
-        print(a)
         print(v1)
         print(v2)
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)#上传到static\\images
-            path_filename_1=filename_1
+            path_filename_1=file_user+'\\\\'+filename_1
             print(path_filename_1)
-            self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,path_filename_1,gk1)#将信息插入数据库
-            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_1))
+            self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,filename_1,gk1)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_1))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_1,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=filename_2
+            path_filename_2=file_user+'\\\\'+filename_2
             print(path_filename_2)
-            self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,path_filename_2,gk2)#将信息插入数据库
-            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_2))
+            self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,filename_2,gk2)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_2))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_2,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=filename_3
+            path_filename_3=file_user+'\\\\'+filename_3
             print(path_filename_3)
-            self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,path_filename_3,gk3)#将信息插入数据库
-            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_3))
+            self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,filename_3,gk3)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_3))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_3,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=filename_4
+            path_filename_4=file_user+'\\\\'+filename_4
             print(path_filename_4)
-            self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,path_filename_4,gk4)#将信息插入数据库
-            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(path_filename_4))
+            self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,filename_4,gk4)#将信息插入数据库
+            al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_4))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_4,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         sum=int(v1)+int(v2)+int(v3)+int(v4)
+        self.db.execute("UPDATE album SET edit_date = '%s'WHERE album_id ='%s' "%(update_date,album_id))
         albumname= self.db.query("SELECT album_name FROM album WHERE album_id ='%d' "%(album_id))
         self.render("successful_upload.html",sum=sum,albumname=albumname[0]['album_name'])
 
@@ -168,19 +179,41 @@ class PhotoHandler(BaseHandler):
         #route=["/static/img/homebg.jpg","/static/img/roll.jpg","/static/images/min/1.jpg"]
         self.render("PhotoListHandler.html",route=route)
 
+
+class PhotoPlayHandler(BaseHandler):
+    def get(self,uid,albumid):
+        pass
+
 class PhotosListHandler(BaseHandler):
     def get(self,uid,albumid):
-        print("photoslist")
         album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
         else:
+            print(albumid)
             photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid,uid)
+            print(photo)
             self.render("photos_show.html",user=user,photos=photo,album=album)
+
+class Photosall(BaseHandler):
+    def get(self,uid):
+        print("photoslist")
+        photo=[]
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
+        print(album)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            for albumid in album :
+                photo.append(self.db.query("SELECT * FROM photo WHERE album_id = %s ", albumid.album_id))
+            print(photo)
+            self.render("photosall.html",user=user,photos=photo)
 
 class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s",photoid)
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
     def post(self):
         pass
