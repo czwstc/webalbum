@@ -28,8 +28,12 @@ class AlbumsListHandler(BaseHandler):
         if not user:
             raise tornado.web.HTTPError(404)
         else:
-            album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
-            self.render("albums.html",user=user,albums=album)
+            albums = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
+            photos_num={}
+            for album in albums:
+                photos = self.db.get("SELECT COUNT(*) AS NUM FROM photo WHERE album_id = %s", album.album_id)
+                photos_num[album.album_id]=int(photos.NUM)
+            self.render("albums.html",user=user,albums=albums,photos_num=photos_num)
         
 
 
