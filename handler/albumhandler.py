@@ -37,7 +37,10 @@ class AlbumsListHandler(BaseHandler):
 class AlbumCreateHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
+<<<<<<< HEAD
         
+=======
+>>>>>>> 985682e204e183aa21a8f45213d99e71007b881c
         self.render("AlbumCreate.html")
 
     @tornado.web.authenticated

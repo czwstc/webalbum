@@ -17,8 +17,6 @@ import shutil
 import time
 import unicodedata
 import uimodules
-import pymysql
-#from DataBaseManager import DataBaseManager
 
 from basehandler import BaseHandler
 
@@ -87,7 +85,7 @@ class AuthLoginHandler(BaseHandler):
         #    tornado.escape.utf8(author.hashed_password))
         if hashed_password == author.hashed_password.encode(encoding='UTF-8'):
             self.set_secure_cookie("cur_user", str(author.id))    #demo里面是blogdemo_user，这里要改
-            self.redirect(self.get_argument("next", "/albums"))
+            self.redirect(self.get_argument("next", "/"))
         else:
             self.render("login.html", error="incorrect password")
 
