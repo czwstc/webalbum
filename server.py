@@ -43,7 +43,7 @@ class Application(tornado.web.Application):
             url(r"/proedit", ProfileEditHandler),
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
-            url(r"/u/([0-9]+)/photos", Photosall),
+            url(r"/u/([0-9]+)/photos/*", Photosall),
             url(r"/albums/new", AlbumCreateHandler, name="AlbumCreate"),
             url(r"/albums/*", MyAlbumsHandler,name="MyAlbums"),
             url(r"/u/([0-9]+)/albums/*", AlbumsListHandler),
