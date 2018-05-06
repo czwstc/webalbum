@@ -26,11 +26,15 @@ from basehandler import BaseHandler
 
 
 class FeedHandler(BaseHandler):
+
     def get(self):
         entries = []
         feeddao = FeedDAO(self.db)
         feed, feed_c, feed_d, feed_p = feeddao.queryfeeds()
-        user_id = self.get_current_user().id
+        if self.get_current_user():
+            user_id = self.get_current_user().id;
+        else:
+            user_id = -1
         like_flag = []
         for i in range(len(feed)):
             for j in feed_d[i]:
@@ -41,6 +45,7 @@ class FeedHandler(BaseHandler):
         print(like_flag)
         self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p, like_flag=like_flag)
 
+    @tornado.web.authenticated
     def post(self):
         #点赞部分处理
         dianzandao = DianzanDAO(self.db)
