@@ -5,41 +5,19 @@
 <link rel="stylesheet" href="/static/css/album.css">
 {% end %}
 
-<<<<<<< HEAD
-<style>
-    #header {
-        background-color:black;
-        color:white;
-        text-align:center;
-        padding:5px;
-    }
-    #nav {
-        line-height:20px;
-        background-color:#b11c1c;
-        height:300px;
-        width:350px;
-        float:right;
-        padding:10px; 
-    }
-    #section {
-        width:350px;
-        float:left;
-        padding:10px; 
-    }
-    #footer {
-        background-color:black;
-        color:white;
-        clear:both;
-        text-align:center;
-        padding:5px; 
-    }
-    </style>
-    
-=======
-
-
->>>>>>> 7ed99f7ff05ccb6572ed83344675fba511628e46
 {% block body %}
+<script src="{{static_url("js/jquery-3.2.1.min.js")}}"></script> {#jquery文件位置#}
+<script type="text/javascript">
+
+    function DoAjax(){
+        var temp = 1;//从第一个输入框里获取数据
+        $.ajax({
+            url:"/u/1/albums/1/1/delete",//调用的是这个url对应的那个Handler
+            type:"POST",//Post方法
+            data:{dat:temp},//要往服务器传递的数据
+        });
+    }
+</script>
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron">
   <div class="container">
@@ -51,16 +29,21 @@
   </div>
 </section>
 <!--这里是相册列表主框架-->
-  <div id="nav">
-    相册描述:<br>
-    {{ album["album_description"] }}<br>
-    </div>    
+<div >
+
+</div>    
 
 <div class="photos py-5 bg-light">      
   <div class="container">
     <div class="card text-center">
         <div class="container mt-4 ml-2 text-left">
             <a class="btn btn-outline-primary btn-sm" href="/photos/new" role="button">上传照片</a>
+            <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/edit" role="button">编辑相册</a>
+            {% if photos%}
+            <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photos[0].photo_id }}" role="button">幻灯片浏览</a>
+            {% end %}
+            相册描述: {{ album["album_description"] }}
+            共有照片  {{ len(photos) }}<br>
           </div>
 <!--       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">

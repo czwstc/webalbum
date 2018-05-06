@@ -41,7 +41,7 @@ class PhotosUploadHandler(BaseHandler):
         
         return(filename)
     def suolue(self,file,id):
-        infile = file
+        infile = file   
         outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
         print(os.path.splitext(infile)[0]) 
         if infile != outfile:
@@ -179,6 +179,7 @@ class PhotosListHandler(BaseHandler):
 
 class PhotoDeleteHandler(BaseHandler):
     def get(self,uid,albumid,photoid):
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s",photoid)
         self.write("相片删除页面，用户id,相册id，相片id分别为"+str(uid)+" "+str(albumid)+" "+str(photoid))
     def post(self):
         pass
