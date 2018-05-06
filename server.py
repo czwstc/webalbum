@@ -39,6 +39,7 @@ class Application(tornado.web.Application):
             url(r"/logout", AuthLogoutHandler),
             url(r"/close", UserDeleteHandler),
             url(r"/pro", ProfileHandler),
+            url(r"/u/([0-9]+)/profile/*", ProfileHandler),
             url(r"/proedit", ProfileEditHandler),
 
             #新建相册，相册列表,相册编辑，相册删除-阙中元，魏晓飞
@@ -50,10 +51,12 @@ class Application(tornado.web.Application):
 
             #上传相片，相片列表，单个相片显示页面，相片删除，朋友圈-唐永剑，贾超，姚彬，徐怡阳，张光伟，李佳袁
             url(r"/photos/new", PhotosUploadHandler, name="PhotosUpload"),
-            url(r"/u/([0-9]+)/albums/([0-9]+)", PhotosListHandler),
-            url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),
+            url(r"/u/([0-9]+)/albums/([0-9]+)", PhotosListHandler),             #<-这是相片列表
+            url(r"/u/([0-9]+)/albums/([0-9]+)/play", PhotoPlayHandler),         #<-这是幻灯播放
+            url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),        #<-这是单张照片浏览        
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
+
         ]
         settings = dict(
             website_title=u"剑哥相册",
