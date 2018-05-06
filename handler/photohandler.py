@@ -125,6 +125,9 @@ class PhotosUploadHandler(BaseHandler):
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_1))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_1,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
             path_filename_2=file_user+'\\\\'+filename_2
@@ -133,14 +136,20 @@ class PhotosUploadHandler(BaseHandler):
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_2))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_2,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
             path_filename_3=file_user+'\\\\'+filename_3
             print(path_filename_3)
-            self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,ilename_3,gk3)#将信息插入数据库
+            self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,filename_3,gk3)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_3))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_3,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
             path_filename_4=file_user+'\\\\'+filename_4
@@ -149,7 +158,11 @@ class PhotosUploadHandler(BaseHandler):
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_4))
             print("al=",al[-1]['photo_id'])                #返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_4,al[-1]['photo_id'])
+
+            self.db.execute("UPDATE album SET cover_id = '%s'WHERE album_id ='%s' "%(al[-1]['photo_id'],album_id))
+
         sum=int(v1)+int(v2)+int(v3)+int(v4)
+        self.db.execute("UPDATE album SET edit_date = '%s'WHERE album_id ='%s' "%(update_date,album_id))
         albumname= self.db.query("SELECT album_name FROM album WHERE album_id ='%d' "%(album_id))
         self.render("successful_upload.html",sum=sum,albumname=albumname[0]['album_name'])
 
@@ -165,6 +178,11 @@ class PhotoHandler(BaseHandler):
         #route=list()
         #route=["/static/img/homebg.jpg","/static/img/roll.jpg","/static/images/min/1.jpg"]
         self.render("PhotoListHandler.html",route=route)
+
+
+class PhotoPlayHandler(BaseHandler):
+    def get(self,uid,albumid):
+        pass
 
 class PhotosListHandler(BaseHandler):
     def get(self,uid,albumid):
