@@ -33,19 +33,30 @@ class FeedDAO:
         feed_comment = []
         feed_dianzan = []
         feed_photo = []
-        sql = "select jcuser.user_name, feed.* from jcuser,feed where jcuser.user_id = feed.user_id order by feed.time"
+        sql = "select users.id,users.name,feed.* from users,feed where users.id = feed.user_id order by feed.time"
         feed = self.cn.query(sql)
         for i in feed:
-            sql = "select * from comment where feed_id = '%d'" % i['feed_id']
+            sql = "select * from comment where feed_id = '%d'" % int(i['feed_id'])
             commnet_rs = self.cn.query(sql)
+            count = 0
+            for j in commnet_rs:
+                sql = "select * from users where id = '%d'" % int(j['user_id'])
+                rs = self.cn.query(sql)
+                commnet_rs[count]['user_name'] = rs[0]['name']
+                count = count + 1
             feed_comment.append(commnet_rs)
-            sql = "select * from dianzan where feed_id = '%d'" % i['feed_id']
+            sql = "select * from dianzan where feed_id = '%d'" % int(i['feed_id'])
             dianzan_rs = self.cn.query(sql)
+            count = 0
+            for j in dianzan_rs:
+                sql = "select * from users where id = '%d'" % int(j['user_id'])
+                rs = self.cn.query(sql)
+                dianzan_rs[count]['user_name'] = rs[0]['name']
+                count = count + 1
             feed_dianzan.append(dianzan_rs)
-            sql = "select file_name from photo where photo_id = '%d'" % i['photo_id']
+            sql = "select file_name from photo where photo_id = '%d'" % int(i['photo_id'])
             photo_rs = self.cn.query(sql)
             feed_photo = feed_photo + photo_rs
-
         return feed, feed_comment, feed_dianzan, feed_photo
 
 

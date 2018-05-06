@@ -1,27 +1,14 @@
-<div class="row clearfix">
-		<div class="col-md-12 column">
-			 <a id="modal-14598" href="#modal-container-14598" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a>
-
-			<div class="modal fade" id="modal-container-14598" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">
-								留下你的足迹吧
-							</h4>
-						</div>
-						<div class="modal-body">
-							jsjdafsda
-						</div>
-						<div class="modal-footer">
-							 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button> <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">发表</button>
-						</div>
-					</div>
-
-				</div>
-
+<div class="modal fade" id="mask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<h4 align="center">留下你的足迹吧</h4>
+			<div align="center">
+			<textarea id="textarea" rows="4" cols="80"></textarea>
 			</div>
-
-		</div>
-</div>
+			<div align="center">
+			    <input type="button"  onclick="hideMask('0')" value="取消" class="btn btn-primary btn-sm">
+			    <input type="button"  onclick="hideMask('1')" value="发表" class="btn btn-primary btn-sm">
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+   </div>

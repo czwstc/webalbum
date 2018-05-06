@@ -17,8 +17,6 @@ import shutil
 import time
 import unicodedata
 import uimodules
-import pymysql
-#from DataBaseManager import DataBaseManager
 
 from basehandler import BaseHandler
 
@@ -99,13 +97,25 @@ class ProfileHandler(BaseHandler):
         else:
             username="未登录"
             user_description="这个用户很懒，什么也没有留下"
-        self.render("pro.html", error="",username=username,user_description=user_description)
+        if not user_description:
+            user_description="这个用户很懒，什么也没有留下"
+        self.render("pro.html",username=username,user_description=user_description)
 
 
 class ProfileEditHandler(BaseHandler):
-    def get(self,uid):
-        self.write("id:" +str(uid)+" 个人资料编辑")
-
+    def get(self):
+        if self.get_current_user():
+            username=self.get_current_user().name
+            self.render("proedit.html",username=username)
+        else:
+            self.render("login.html")    #已登录的可以修改，没登陆的先去登录
     @gen.coroutine
-    def post(self,uid):
-        pass
+    def post(self):
+        if self.get_current_user():
+            id=self.get_current_user().id
+            user_description=self.get_argument("user_description")
+        
+        
+        sql="UPDATE users SET user_description = '%s' WHERE id = '%s'" % (user_description,id)
+        self.db.execute(sql)
+        
