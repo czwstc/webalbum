@@ -24,7 +24,6 @@ from basehandler import BaseHandler
 class AlbumsListHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self,uid):
-        self.render("AlbumCreate.html")
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
