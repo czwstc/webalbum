@@ -9,11 +9,18 @@
 <!--这里是个人相册标题和概要-->
 <section class="jumbotron">
   <div class="container">
-    <h1 class="jumbotron-heading">{{ user.nickname }}</h1>
-    <p>
-      <a href="#" class="btn btn-primary my-2">给我打赏</a>
-      <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
-    </p>
+    <div class="row">
+      <div class="col-md-2">
+        <img class="rounded-circle" src="/static/img/face.jpg" alt="Generic placeholder image" width="140" height="140">
+      </div>
+      <div class="col-md-10">
+        <h1 class="jumbotron-heading text-white">{{ user.nickname }}</h1>
+        <p>
+          <a href="#" class="btn btn-primary my-2">给我打赏</a>
+          <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 <!--这里是相册列表主框架-->

@@ -94,7 +94,7 @@ from basehandler import BaseHandler
 
 class HomeHandler(BaseHandler):
     def get(self):
-        self.render("home.html")
+        self.render("home.html",user=self.current_user)
 
 
 from handler.feedhandler import FeedHandler
