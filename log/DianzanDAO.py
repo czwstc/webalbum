@@ -44,7 +44,8 @@ class DianzanDAO:
         for i in user_id:
             sql = "select * from users where id = '%d'" % int(i)
             rs = self.cn.query(sql)
-            user_name.append(rs[0]['name'])
+            if rs:
+                user_name.append(rs[0]['name'])
         print(user_name)
         return user_name
 
