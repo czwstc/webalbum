@@ -1,18 +1,24 @@
-function change(arg){
-         var color = document.getElementById(arg).style.color;
-         if( color == "black")
+function change(arg,user_id){
+//         if(user_id == '-1')
+//         {
+//             window.navigate("login.html");
+//             console.log("11111")
+//         }
+//         else{
+         var background = document.getElementById(arg).style.background;
+         if( background == "deepskyblue")
          {
-             document.getElementById(arg).style.color ="white";
+             document.getElementById(arg).style.background ="gray";
          }
          else
          {
-            document.getElementById(arg).style.color ="black";
+            document.getElementById(arg).style.background ="DeepSkyBlue";
          }
         var name =  document.getElementById(arg).name;//从第一个输入框里获取数据
             $.ajax({
                 url:"/feed",//调用的是这个url对应的那个Handler
                 type:"POST",//Post方法
-                data:{color:color,name:name},//要往服务器传递的数据
+                data:{background:background,name:name},//要往服务器传递的数据
                 success:function(data){
                     var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
                     console.log(obj.status);
@@ -40,6 +46,7 @@ function change(arg){
                     console.log("failed");
                 }
             });
+            
  }
 //评论区的js
 //兼容火狐、IE8

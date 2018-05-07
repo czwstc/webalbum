@@ -4,15 +4,13 @@
 <head>
 	<title>朋友圈</title>
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="theme1.css" rel="stylesheet">
-	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	 {% module Navbar() %}
+	<link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
+	 <link rel="icon" href="/static/favicon.ico">
+
 </head>
 <body>
-
-<div class="container">
+{% module Navbar() %}
+<div class="container" >
     <div class="row clearfix" >
         <div class="col-md-2 column">
         </div>
@@ -25,62 +23,70 @@
      <div class="col-md-2 column">
         </div>
     </div>
+	 <div class="row clearfix" >
+        <div class="col-md-2 column">
+        </div>
+    <div class="col-md-8 column" style="background-color:#eeeeee" >
+			<textarea></textarea>
+		</div>
+
+     <div class="col-md-2 column">
+        </div>
+    </div>
 	{%for i in range(len(feed))[::-1]%}
 	<div class="row clearfix" id= {{feed[i]['time']}}>
 		<div class="col-md-2 column">
 		</div>
 		<div class="col-md-8 column" style="background-color:#eeeeee">
-            <div class="row clearfix">
-	</div>
             <div class="row clearfix" >
                 <div class="col-md-6 column" >
-                   <h4>
-					   {{feed[i]['name']}}
-			       </h4>
+					<p>
+					   {{feed[i]['name']}}      {{feed[i]['time']}}
+				    </p>
                 </div>
-
                 <div class="col-md-6 column" align="right">
-                   <h4>
-					   {{feed[i]['time']}}
-			       </h4>
+                   <p>
+					   编辑
+			       </p>
             </div>
             </div>
 			<p style="word-break:break-all" class="p1">
 				{{feed[i]['reason']}}
             </p>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class="thumbnail">
-						<img alt="800x600" src="/static/img/{{feed_p[i]['file_name']}}" />
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="thumbnail">
-						<img alt="800x600" src="/static/img/{{feed_p[i]['file_name']}}" />
+						<img alt="400x300" src="/static/img/{{feed_p[i]['file_name']}}" />
 					</div>
 				</div>
 			</div>
+			<p></p>
 			<div class="row clearfix">
 				<div class="col-md-6 column">
 					<div class="row clearfix">
 						<div class="col-md-3 column">
+							{% if like_flag %}
 							{% if like_flag[i] == 1%}
-							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike{{i}}')" style="color: black;">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike{{i}}','{{user_id}}')" style="background: DeepSkyBlue;color:black">点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 							{%if like_flag[i] == 0%}
-							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}} type="button" class="btn btn-primary btn-sm" data-toggle="toggle" onclick="change('mylike2{{i}}')" style="color: white;">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}}  class="btn btn-primary btn-sm" onclick="change('mylike2{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
+							{%end%}
+							{%else%}
+                             <button id="mylike3{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike3{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 						</div>
 						<div class="col-md-3 column">
-							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')">评论{{len(feed_c[i])}}条</button>
+							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')" style="background: DeepSkyBlue;color:black">评论{{len(feed_c[i])}}条</button>
 						</div>
                         <div class="col-md-6 column">
                         </div>
 					</div>
 				</div>
 				<div class="col-md-6 column">
+					{% if like_flag %}
 					{% if like_flag[i] == 1%}
-					<p align="right" id="mmylike{{i}}">
+					<p align="right" id="mmylike{{i}}" style="color:deepskyblue">
 						{%if len(feed_d[i])>=3%}
                         {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
 						{%elif len(feed_d[i])==1%}
@@ -91,7 +97,18 @@
                     </p>
 					{%end%}
 					{%if like_flag[i] == 0%}
-					<p align="right" id="mmylike2{{i}}">
+					<p align="right" id="mmylike2{{i}}" style="color:deepskyblue">
+						{%if len(feed_d[i])>=3%}
+                        {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
+						{%elif len(feed_d[i])==1%}
+						{{feed_d[i][0]['user_name']}}已赞
+						{%elif len(feed_d[i])==2%}
+						{{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}已赞
+						{%end%}
+                    </p>
+					{%end%}
+					{%else%}
+					<p align="right" id="mmylike3{{i}}" style="color:deepskyblue">
 						{%if len(feed_d[i])>=3%}
                         {{feed_d[i][0]['user_name']}},{{feed_d[i][1]['user_name']}}...已赞
 						{%elif len(feed_d[i])==1%}
@@ -103,25 +120,29 @@
 					{%end%}
 				</div>
 			</div>
+			<p></p>
 			<div class="row clearfix">
 				<div class="col-md-12 column" id = "comments{{feed[i]['feed_id']}}">
-					<h5>
+					<p>
 						这里是评论区
-					</h5>
+					</p>
+					{%if feed_c[i]%}
 					{%for comment_index in range(len(feed_c[i]))%}
 					<p style="word-break:break-all" >
 						{{feed_c[i][comment_index]['user_name']}}:{{feed_c[i][comment_index]['comment_body']}}
 					</p>
 					{%end%}
-
+					{%end%}
 				</div>
 			</div>
     </div>
 		<div class="col-md-2 column">
 		</div>
 	</div>
+	{%if i+1 < len(feed)%}
     <p>
     </p>
+	{%end%}
     {%end%}
 </div>
 <div class="modal fade" id="mask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -143,6 +164,6 @@
     <script src="https://code.jquery.com/jquery.js"></script>
   <!-- 包括所有已编译的插件 <script src="/static/js/jquery-3.3.1.min.js"></script>-->
     <script src="/static/js/feed.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% include common/module-bottom.html %}
 </body>
 </html>
