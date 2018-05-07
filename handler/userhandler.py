@@ -52,7 +52,8 @@ class AuthCreateHandler(BaseHandler):
             self.set_secure_cookie("cur_user", str(author_id))
             self.redirect(self.get_argument("next", "/"))
         else:
-            self.render("create_author.html")
+            self.redirect(self.get_argument("next", "/"))
+        self.redirect(self.get_argument("next", "/"))
 
 
 class AuthLoginHandler(BaseHandler):

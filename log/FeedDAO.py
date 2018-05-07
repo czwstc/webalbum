@@ -42,7 +42,10 @@ class FeedDAO:
             for j in commnet_rs:
                 sql = "select * from users where id = '%d'" % int(j['user_id'])
                 rs = self.cn.query(sql)
-                commnet_rs[count]['user_name'] = rs[0]['name']
+                if rs:
+                    commnet_rs[count]['user_name'] = rs[0]['name']
+                else:
+                    commnet_rs[count]['user_name'] = None
                 count = count + 1
             feed_comment.append(commnet_rs)
             sql = "select * from dianzan where feed_id = '%d'" % int(i['feed_id'])
@@ -51,7 +54,10 @@ class FeedDAO:
             for j in dianzan_rs:
                 sql = "select * from users where id = '%d'" % int(j['user_id'])
                 rs = self.cn.query(sql)
-                dianzan_rs[count]['user_name'] = rs[0]['name']
+                if rs:
+                    dianzan_rs[count]['user_name'] = rs[0]['name']
+                else:
+                    dianzan_rs[count]['user_name'] = None
                 count = count + 1
             feed_dianzan.append(dianzan_rs)
             sql = "select file_name from photo where photo_id = '%d'" % int(i['photo_id'])
