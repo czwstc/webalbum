@@ -13,22 +13,28 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li>
-          <a href="/pro" class="nav-link">
-            <span></span> 用户</a>
-        </li>
-      <li>
+        {%if not user%}
       <li>
         <a href="/login" class="nav-link">
           <span></span> 登录</a>
       </li>
-      <li>
+
+        {%else%}
+        <li>
+            <a href="/pro" class="nav-link">
+              <span></span>{{user.nickname}}</a>
+          </li>
+      <li>        
         <a href="/logout" class="nav-link">
           <span></span> 登出</a>
       </li>
+      {% end %}
+      {%if not user%}
       <li>
         <a href="/signup" class="nav-link">
           <span></span> 注册</a>
       </li>
+      {%end%}
     </ul>
   </nav>
 </header>

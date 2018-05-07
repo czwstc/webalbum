@@ -31,7 +31,8 @@ class PhotosUploadHandler(BaseHandler):
         self.render("shangchuan.html",albums=albums)
 
     def fileup(self,file,path):
-        upload_path=os.path.join(os.path.dirname(__file__),"..\\",path)  #文件的暂存路径
+        s='..'+os.path.sep
+        upload_path=os.path.join(os.path.dirname(__file__),s,path)  #文件的暂存路径
         file_metas=self.request.files[file]    #提取表单中‘name’为‘file’的文件元数据
         for meta in file_metas:
             filename=meta['filename']
@@ -42,7 +43,9 @@ class PhotosUploadHandler(BaseHandler):
         return(filename)
     def suolue(self,file,id):
         infile = file   
-        outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        #outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        s1=str(id)+'.jpg'
+        outfile=os.path.join('static','images','min',s1)
         print(os.path.splitext(infile)[0]) 
         if infile != outfile:
             try:
@@ -111,15 +114,15 @@ class PhotosUploadHandler(BaseHandler):
         d[1]=[update_date,album_id,photo_name2,photo_description2,v2,gk2]
         d[2]=[update_date,album_id,photo_name3,photo_description3,v3,gk3]
         d[3]=[update_date,album_id,photo_name4,photo_description4,v4,gk4]
-        file="static\\\\images"
+        #file="static\\\\images"
+        #file_user=file
+        file=os.path.join('static','images')
         file_user=file
-        file_suolue=file+"\\\\min"
+        file_suolue=os.path.join(file,'min')
         self.mkdir(file)
-        print(v1)
-        print(v2)
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)#上传到static\\images
-            path_filename_1=file_user+'\\\\'+filename_1
+            path_filename_1=file_user+os.path.sep+filename_1
             print(path_filename_1)
             self.info_up(album_id,user_id,photo_name1,photo_description1,update_date,filename_1,gk1)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_1))
@@ -130,7 +133,7 @@ class PhotosUploadHandler(BaseHandler):
 
         if(v2=='1'):
             filename_2=self.fileup('fk1',file_user)
-            path_filename_2=file_user+'\\\\'+filename_2
+            path_filename_2=file_user+os.path.sep+filename_2
             print(path_filename_2)
             self.info_up(album_id,user_id,photo_name2,photo_description2,update_date,filename_2,gk2)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_2))
@@ -141,7 +144,7 @@ class PhotosUploadHandler(BaseHandler):
 
         if(v3=='1'):
             filename_3=self.fileup('fk2',file_user)
-            path_filename_3=file_user+'\\\\'+filename_3
+            path_filename_3=file_user+os.path.sep+filename_3
             print(path_filename_3)
             self.info_up(album_id,user_id,photo_name3,photo_description3,update_date,filename_3,gk3)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_3))
@@ -152,7 +155,7 @@ class PhotosUploadHandler(BaseHandler):
 
         if(v4=='1'):
             filename_4=self.fileup('fk3',file_user)
-            path_filename_4=file_user+'\\\\'+filename_4
+            path_filename_4=file_user+os.path.sep+filename_4
             print(path_filename_4)
             self.info_up(album_id,user_id,photo_name4,photo_description4,update_date,filename_4,gk4)#将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' "%(filename_4))
@@ -196,14 +199,12 @@ class PhotosListHandler(BaseHandler):
 
 class Photosall(BaseHandler):
     def get(self,uid):
-        photo=[]
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
         else:
-            for albumid in album :
-                photo.append(self.db.query("SELECT * FROM photo WHERE album_id = %s ", albumid.album_id))
+            photo=self.db.query("SELECT * FROM photo WHERE user_id = %s ", user.id)
             self.render("photosall.html",user=user,photos=photo)
 
 class PhotoDeleteHandler(BaseHandler):
