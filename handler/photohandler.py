@@ -42,7 +42,9 @@ class PhotosUploadHandler(BaseHandler):
         return(filename)
     def suolue(self,file,id):
         infile = file   
-        outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        #outfile = 'static\\images\\min\\'+str(id)+'.jpg' 
+        s1=str(id)+'.jpg'
+        outfile=os.path.join('static','images','min',s1)
         print(os.path.splitext(infile)[0]) 
         if infile != outfile:
             try:
@@ -111,12 +113,12 @@ class PhotosUploadHandler(BaseHandler):
         d[1]=[update_date,album_id,photo_name2,photo_description2,v2,gk2]
         d[2]=[update_date,album_id,photo_name3,photo_description3,v3,gk3]
         d[3]=[update_date,album_id,photo_name4,photo_description4,v4,gk4]
-        file="static\\\\images"
+        #file="static\\\\images"
+        #file_user=file
+        file=os.path.join('static','images')
         file_user=file
-        file_suolue=file+"\\\\min"
+        file_suolue=os.path.join(file,'min')
         self.mkdir(file)
-        print(v1)
-        print(v2)
         if(v1=='1'):
             filename_1=self.fileup('fk0',file_user)#上传到static\\images
             path_filename_1=file_user+'\\\\'+filename_1
