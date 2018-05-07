@@ -42,7 +42,7 @@ class FeedHandler(BaseHandler):
                     like_flag.append(1)
                     break
                 like_flag.append(0)
-        self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p, like_flag=like_flag, user_id=user_id)
+        self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p, like_flag=like_flag, user_id=user_id, user=self.current_user)
 
     #@tornado.web.authenticated
     def post(self):

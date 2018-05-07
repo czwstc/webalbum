@@ -4,12 +4,54 @@
 <head>
 	<title>朋友圈</title>
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	 <link rel="icon" href="/static/favicon.ico">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 
 </head>
 <body>
-{% module Navbar() %}
+<nav class="navbar navbar-inverse" role="navigation">
+	 <div class="container-fluid">
+	 <div class="navbar-header">
+		 <a class="navbar-brand" href="/">{{ escape(handler.settings["website_title"]) }}</a></div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a class="nav-link" href="/">首页
+          <span class="sr-only">(当前)</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="/feed/">广场</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        {%if not user%}
+      <li>
+        <a href="/login" class="nav-link">
+          <span></span> 登录</a>
+      </li>
+
+        {%else%}
+        <li>
+            <a href="/pro" class="nav-link">
+              <span></span>{{user.nickname}}</a>
+          </li>
+      <li>
+        <a href="/logout" class="nav-link">
+          <span></span> 登出</a>
+      </li>
+      {% end %}
+      {%if not user%}
+      <li>
+        <a href="/signup" class="nav-link">
+          <span></span> 注册</a>
+      </li>
+      {%end%}
+    </ul>
+	 </div>
+  </nav>
+
 <div class="container" >
     <div class="row clearfix" >
         <div class="col-md-2 column">
@@ -27,7 +69,7 @@
         <div class="col-md-2 column">
         </div>
     <div class="col-md-8 column" style="background-color:#eeeeee" >
-			<textarea></textarea>
+
 		</div>
 
      <div class="col-md-2 column">
@@ -70,14 +112,14 @@
 							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike{{i}}','{{user_id}}')" style="background: DeepSkyBlue;color:black">点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 							{%if like_flag[i] == 0%}
-							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}}  class="btn btn-primary btn-sm" onclick="change('mylike2{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}}  class="btn btn-primary btn-sm"  onclick="change('mylike2{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 							{%else%}
-                             <button id="mylike3{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike3{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
+                             <button id="mylike3{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"   onclick="change('mylike3{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 						</div>
 						<div class="col-md-3 column">
-							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm" onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')" style="background: DeepSkyBlue;color:black">评论{{len(feed_c[i])}}条</button>
+							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm"  onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')" style="background: DeepSkyBlue;color:black">评论{{len(feed_c[i])}}条</button>
 						</div>
                         <div class="col-md-6 column">
                         </div>
@@ -159,11 +201,27 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
    </div>
+<footer class="text-muted" >
+    <div class="container">
+
+			<div class="col-md-6 column">
+      <p>丰玉霖 Copyright &copy; 2013-2018</p>
+				</p>
+
+      <p>网站前端框架： <a href="https://getbootstrap.com/">Bootstrap</a></p>
+		</div>
+		<div class="col-md-6 column">
+      <p class="float-right" align="right">
+        <a href="#">Back to top</a>
+	</div>
+
+    </div>
+  </footer>
+   <script src="https://code.jquery.com/jquery.js"></script>
    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery.js"></script>
-  <!-- 包括所有已编译的插件 <script src="/static/js/jquery-3.3.1.min.js"></script>-->
+   <!-- 包括所有已编译的插件 -->
     <script src="/static/js/feed.js"></script>
-{% include common/module-bottom.html %}
+
 </body>
 </html>
