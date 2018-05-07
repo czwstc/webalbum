@@ -199,14 +199,12 @@ class PhotosListHandler(BaseHandler):
 
 class Photosall(BaseHandler):
     def get(self,uid):
-        photo=[]
         user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
         album = self.db.query("SELECT * FROM album WHERE user_id = %s", uid)
         if not user:
             raise tornado.web.HTTPError(404)
         else:
-            for albumid in album :
-                photo.append(self.db.query("SELECT * FROM photo WHERE album_id = %s ", albumid.album_id))
+            photo=self.db.query("SELECT * FROM photo WHERE user_id = %s ", user.id)
             self.render("photosall.html",user=user,photos=photo)
 
 class PhotoDeleteHandler(BaseHandler):
