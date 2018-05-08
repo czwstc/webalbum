@@ -34,6 +34,7 @@ class AlbumsListHandler(BaseHandler):
                 photos = self.db.get("SELECT COUNT(*) AS NUM FROM photo WHERE album_id = %s", album.album_id)
                 photos_num[album.album_id]=int(photos.NUM)
             self.render("albums.html",user=user,albums=albums,photos_num=photos_num)
+            
         
 
 
@@ -61,7 +62,8 @@ class AlbumCreateHandler(BaseHandler):
         alb = albumDAO(self.db)
         alb.addalbum(album)
 
-        self.redirect("/u/"+str(self.current_user.id)+"/albums")
+        #self.redirect("/u/"+str(self.current_user.id)+"/albums")
+        self.render("SuccessfulNewAlbum.html")
 
 class AlbumEditHandler(BaseHandler):
     def get(self,uid,albumid):
