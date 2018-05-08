@@ -71,11 +71,12 @@ class AlbumEditHandler(BaseHandler):
         pass
 
 class AlbumDeleteHandler(BaseHandler):
-    def get(self,uid,albumid):
-         self.write("相册删除，用户id和相册id分别为"+str(uid)+" "+str(albumid))
-
     def post(self):
-        pass
+        user=self.current_user
+        album_id=self.get_body_argument("album_id")
+        self.db.execute("DELETE FROM album WHERE album_id = %s",album_id)
+        self.db.execute("DELETE FROM photo WHERE album_id = %s",album_id)
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
 
 class MyAlbumsHandler(BaseHandler):
     @tornado.web.authenticated
