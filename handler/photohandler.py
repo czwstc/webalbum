@@ -148,7 +148,7 @@ class PhotosUploadHandler(BaseHandler):
                 feed_photo_id = self.info_up(album_id, user_id, photo_name1, photo_description1, update_date,
                                              filename_1,
                                              gk1)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description1, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name1, photo_description1, update_date,
                              filename_1,
@@ -165,7 +165,7 @@ class PhotosUploadHandler(BaseHandler):
             print(path_filename_2)
             if self.get_argument("box2") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name2, photo_description2, update_date, filename_2, gk2)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description2, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name2, photo_description2, update_date, filename_2,
                              gk2)  # 将信息插入数据库
@@ -181,7 +181,7 @@ class PhotosUploadHandler(BaseHandler):
             print(path_filename_3)
             if self.get_argument("box3") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3, gk3)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['user_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['user_id'], photo_description3, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3,
                              gk3)  # 将信息插入数据库
@@ -197,7 +197,7 @@ class PhotosUploadHandler(BaseHandler):
             print(path_filename_4)
             if self.get_argument("box4") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4, gk4)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id, "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id, photo_description4, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name4, photo_description4, update_date,
                                              filename_4, gk4)  # 将信息插入数据库
@@ -258,6 +258,14 @@ class PhotoDeleteHandler(BaseHandler):
     def get(self, uid, albumid, photoid):
         self.db.execute("DELETE FROM photo WHERE photo_id = %s", photoid)
         self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
+
+    def post(self):
+        pass
+
+
+class jc_PhotoPlayHandler(BaseHandler):
+    def get(self):
+        self.render("carousel.html")
 
     def post(self):
         pass
