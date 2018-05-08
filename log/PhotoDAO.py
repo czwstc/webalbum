@@ -44,6 +44,7 @@ class PhotoDAO:
         except:
             print("updata error")
         return lastid
+
     def querypublicPhoto(self):
         l_photoid=[]
         l_userid=[]

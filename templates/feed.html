@@ -4,82 +4,36 @@
 <head>
 	<title>朋友圈</title>
 	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css') }}">
 	 <link rel="icon" href="/static/favicon.ico">
+	<link rel="stylesheet" href="/static/css/feed.css">
 	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 
 </head>
 <body>
-<nav class="navbar navbar-inverse" role="navigation">
-	 <div class="container-fluid">
-	 <div class="navbar-header">
-		 <a class="navbar-brand" href="/">{{ escape(handler.settings["website_title"]) }}</a></div>
-    <ul class="nav navbar-nav">
-      <li class="active">
-        <a class="nav-link" href="/">首页
-          <span class="sr-only">(当前)</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="/feed/">广场</a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        {%if not user%}
-      <li>
-        <a href="/login" class="nav-link">
-          <span></span> 登录</a>
-      </li>
-
-        {%else%}
-        <li>
-            <a href="/pro" class="nav-link">
-              <span></span>{{user.nickname}}</a>
-          </li>
-      <li>
-        <a href="/logout" class="nav-link">
-          <span></span> 登出</a>
-      </li>
-      {% end %}
-      {%if not user%}
-      <li>
-        <a href="/signup" class="nav-link">
-          <span></span> 注册</a>
-      </li>
-      {%end%}
-    </ul>
-	 </div>
-  </nav>
-
+{% module Navbar() %}
+<section class="jumbotron" >
+  <div class="container" >
+    <div class="row">
+      <div class="col-md-9">
+      </div>
+      <div class="col-md-3">
+        <h1 class="jumbotron-heading text-white">{{ user.nickname }}</h1>
+        <p>
+          <a href="#" class="btn btn-primary my-2">我也想说</a>
+          <a href="http://wpa.qq.com/msgrd?v=3&uin=494800279&site=qq&menu=yes" class="btn btn-secondary my-2">联系我</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<main role="main">
 <div class="container" >
-    <div class="row clearfix" >
-        <div class="col-md-2 column">
-        </div>
-    <div class="col-md-8 column" style="background-color:#cccccc" >
-			<h1 class="text-center" >
-				欢迎来到广场诸位
-			</h1>
-		</div>
-
-     <div class="col-md-2 column">
-        </div>
-    </div>
-	 <div class="row clearfix" >
-        <div class="col-md-2 column">
-        </div>
-    <div class="col-md-8 column" style="background-color:#eeeeee" >
-
-		</div>
-
-     <div class="col-md-2 column">
-        </div>
-    </div>
 	{%for i in range(len(feed))[::-1]%}
-	<div class="row clearfix" id= {{feed[i]['time']}}>
+	<div class="row clearfix" id= {{feed[i]['time']}} >
 		<div class="col-md-2 column">
 		</div>
-		<div class="col-md-8 column" style="background-color:#eeeeee">
+		<div class="col-md-8 column" style="background:url(/static/img/feed_block.jpg);background-repeat:no-repeat;background-size:100% 100%;">
             <div class="row clearfix" >
                 <div class="col-md-6 column" >
 					<p>
@@ -97,8 +51,8 @@
             </p>
 			<div class="row">
 				<div class="col-md-12">
-					<div class="thumbnail">
-						<img alt="400x300" src="/static/img/{{feed_p[i]['file_name']}}" />
+					<div class="thumbnail" align="center">
+						<img alt="400x300" src="/static/images/min/{{feed[i]['photo_id']}}.jpg"/>
 					</div>
 				</div>
 			</div>
@@ -109,17 +63,17 @@
 						<div class="col-md-3 column">
 							{% if like_flag %}
 							{% if like_flag[i] == 1%}
-							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike{{i}}','{{user_id}}')" style="background: DeepSkyBlue;color:black">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"  onclick="change('mylike{{i}}','{{user_id}}')" >点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 							{%if like_flag[i] == 0%}
-							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}}  class="btn btn-primary btn-sm"  onclick="change('mylike2{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
+							<button id="mylike2{{i}}" name={{feed[i]['feed_id']}}  class="btn btn-default btn-sm"  onclick="change('mylike2{{i}}')" >点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 							{%else%}
-                             <button id="mylike3{{i}}" name={{feed[i]['feed_id']}} class="btn btn-primary btn-sm"   onclick="change('mylike3{{i}}')" style="background: gray;color:black">点赞{{len(feed_d[i])}}人</button>
+                             <button id="mylike3{{i}}" name={{feed[i]['feed_id']}} class="btn btn-default btn-sm"   onclick="change('mylike3{{i}}')" >点赞{{len(feed_d[i])}}人</button>
 							{%end%}
 						</div>
 						<div class="col-md-3 column">
-							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm"  onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')" style="background: DeepSkyBlue;color:black">评论{{len(feed_c[i])}}条</button>
+							 <button id= "comment{{i}}" type="button" class="btn btn-primary btn-sm"  onclick="showMask('comment{{i}}','{{feed[i]['feed_id']}}','{{feed[i]['photo_id']}}')">评论{{len(feed_c[i])}}条</button>
 						</div>
                         <div class="col-md-6 column">
                         </div>
@@ -181,7 +135,7 @@
 		<div class="col-md-2 column">
 		</div>
 	</div>
-	{%if i+1 < len(feed)%}
+	{%if i > 0%}
     <p>
     </p>
 	{%end%}
@@ -192,7 +146,7 @@
 		<div class="modal-content">
 			<h4 align="center">留下你的足迹吧</h4>
 			<div align="center">
-			<textarea id="textarea" rows="4" cols="80"></textarea>
+			<textarea id="textarea" rows="4" cols="65" ></textarea>
 			</div>
 			<div align="center">
 			    <input type="button"  onclick="hideMask('0')" value="取消" class="btn btn-primary btn-sm">
@@ -201,25 +155,12 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
    </div>
-<footer class="text-muted" >
-    <div class="container">
-
-			<div class="col-md-6 column">
-      <p>丰玉霖 Copyright &copy; 2013-2018</p>
-				</p>
-
-      <p>网站前端框架： <a href="https://getbootstrap.com/">Bootstrap</a></p>
-		</div>
-		<div class="col-md-6 column">
-      <p class="float-right" align="right">
-        <a href="#">Back to top</a>
-	</div>
-
-    </div>
-  </footer>
-   <script src="https://code.jquery.com/jquery.js"></script>
-   <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</main>
+    {% include common/module-bottom.html %}
+    <script src="https://code.jquery.com/jquery.js"></script>
+     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
    <!-- 包括所有已编译的插件 -->
     <script src="/static/js/feed.js"></script>
 
