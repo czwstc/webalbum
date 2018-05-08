@@ -62,7 +62,6 @@ class AlbumCreateHandler(BaseHandler):
         alb = albumDAO(self.db)
         alb.addalbum(album)
 
-        #self.redirect("/u/"+str(self.current_user.id)+"/albums")
         self.render("SuccessfulNewAlbum.html")
 
 class AlbumEditHandler(BaseHandler):
@@ -72,9 +71,8 @@ class AlbumEditHandler(BaseHandler):
         discription=self.get_body_argument("discribe")
         now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-
-        self.db.execute("UPDATE album SET album_name=name,album_description=discription,edit_date=now_date WHERE album_id = %s",album_id)
-
+        self.db.execute("UPDATE album SET album_name= %s ,album_description= %s ,edit_date= %s WHERE album_id = %s",name,discription,now_date,album_id)
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
         
 
 class AlbumDeleteHandler(BaseHandler):
