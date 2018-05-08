@@ -4,112 +4,157 @@
 {% end %}
 
 {% block body %}
-    <form action="/photos/new" onsubmit="return validate_form(this)"enctype="multipart/form-data" method="post">
-  <div class="container-fluid">
-    <div class="row clearfix">
-      <div class="col-md-12 column">
-        
-        <div class="jumbotron">
-                <p class="pc" align="center" > 上传到：
-                        <select id="albums" name="xia">
-                          {% for album in albums %}
-                          <option value="{{album.album_id}}">{{album.album_name}}</option>
-                            {% end %}
-                        </select>
-                </p>
+    <form action="/photos/new" onsubmit="return validate_form(this)" enctype="multipart/form-data" method="post">
+      <div class="container">
+        <div class="row clearfix">
+          <div class="col-md-12 column">
+    
+            <div class="jumbotron">
+              <p class="pc" align="center"> 上传到：
+                <select id="albums" name="xia">
+                  {% for album in albums %}
+                  <option value="{{album.album_id}}">{{album.album_name}}</option>
+                  {% end %}
+                </select>
+              </p>
+            </div>
+            <p class="q1" align="center"></p>
+    
+            <table class="table" align="center">
+    
+              <caption>已选择的图片</caption>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>文件名称</th>
+                  <th>名字</th>
+                  <th>描述</th>
+                  <th>是否确认上传</th>
+                  <th>是否公开</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="act1">
+                  <td>1</td>
+                  <td>
+                    <input id="fk0" type="file" name="fk0" />
+                  </td>
+                  <td>
+                    <input type="text" name="nameee1">
+                  </td>
+                  <td>
+                    <input type="text" name="description1">
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box1" value="0">
+                        <input type="checkbox" name="box1" value="1">上传请打勾
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box11" value="0">
+                        <input type="checkbox" name="box11" value="1">公开
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="act2">
+                  <td>2</td>
+                  <td>
+                    <input id="fk1" type="file" name="fk1" />
+                  </td>
+                  <td>
+                    <input type="text" name="nameee2">
+                  </td>
+                  <td>
+                    <input type="text" name="description2">
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box2" value="0">
+                        <input type="checkbox" name="box2" id="id_box2" value="1">上传请打勾
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box12" value="0">
+                        <input type="checkbox" name="box12" value="1">公开
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="act3">
+                  <td>3</td>
+                  <td>
+                    <input id="fk2" type="file" name="fk2" />
+                  </td>
+                  <td>
+                    <input type="text" name="nameee3">
+                  </td>
+                  <td>
+                    <input type="text" name="description3">
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box3" value="0">
+                        <input type="checkbox" name="box3" value="1">上传请打勾
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box13" value="0">
+                        <input type="checkbox" name="box13" value="1">公开
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="act4">
+                  <td>4</td>
+                  <td>
+                    <input id="fk3" type="file" name="fk3" />
+                  </td>
+                  <td>
+                    <input type="text" name="nameee4">
+                  </td>
+                  <td>
+                    <input type="text" name="description4">
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box4" value="0">
+                        <input type="checkbox" name="box4" value="1">上传请打勾
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" name="box14" value="0">
+                        <input type="checkbox" name="box14" value="1">公开
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <p class="q1" align="center"></p>
-        
-        <table class="table" align="center">
-            
-                <caption>已选择的图片</caption>
-                <thead>
-                  <tr>
-                    <th>序号</th>
-                    <th>文件名称</th>
-                    <th>起个名子吧</th>
-                    <th>还想说...</th>
-                    <th>是否确认上传</th>
-                    <th>是否公开</th></tr>
-                </thead>
-                <tbody>
-                  <tr class="act1">
-                    <td>图片1</td>
-                    <td><input id="fk0" type="file" name="fk0"  /></td>
-                    <td><input type="text" name="nameee1"></td>
-                    <td><input type="text" name="description1"></td>
-                    <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box1" value="0">
-                              <input type="checkbox" name="box1" value="1">上传请打勾
-                            </label>
-                          </div></td>
-                          <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box11" value="0">
-                              <input type="checkbox" name="box11" value="1">公开
-                            </label>
-                          </div></td>
-                         </tr>
-                  <tr class="act2">
-                    <td>图片2</td>
-                    <td><input id="fk1" type="file" name="fk1"  /></td>
-                    <td><input type="text" name="nameee2"></td>
-                    <td><input type="text" name="description2"></td>
-                    <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box2" value="0">
-                              <input type="checkbox" name="box2" id="id_box2" value="1">上传请打勾
-                            </label>
-                          </div></td>
-                          <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box12" value="0">
-                              <input type="checkbox" name="box12" value="1">公开
-                            </label>
-                          </div></td></tr>
-                  <tr class="act3">
-                    <td>图片3</td>
-                    <td><input id="fk2" type="file" name="fk2"  /></td>
-                    <td><input type="text" name="nameee3"></td>
-                    <td><input type="text" name="description3"></td>
-                    <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box3" value="0">
-                              <input type="checkbox" name="box3" value="1">上传请打勾
-                            </label>
-                          </div></td>
-                          <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box13" value="0">
-                              <input type="checkbox" name="box13" value="1">公开
-                            </label>
-                          </div></td></tr>
-                  <tr class="act4">
-                    <td>图片4</td>
-                    <td><input  id="fk3" type="file" name="fk3"  /></td>
-                    <td><input type="text" name="nameee4"></td>
-                    <td><input type="text" name="description4"></td>
-                    <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box4" value="0">
-                              <input type="checkbox" name="box4" value="1">上传请打勾
-                            </label>
-                          </div></td>
-                          <td><div class="checkbox">
-                            <label>
-                                <input type="hidden" name="box14" value="0">
-                              <input type="checkbox" name="box14" value="1">公开
-                            </label>
-                          </div></td></tr>
-                </tbody>
-              </table>
       </div>
-    </div>
-  </div>
-  <p class="q2" align="center"><input  type="submit" value="提交" /> </p> 
-  
-  
- 
-</form>
+      <p class="q2" align="center">
+        <input type="submit" value="提交" /> </p>
+    
+    
+    
+    </form>
 {% end %}

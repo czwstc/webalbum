@@ -1,25 +1,32 @@
 {% extends "base.html" %}
 
+{% block head %}
+<title>{{ user.nickname }} | {{ escape(handler.settings["website_title"]) }}</title>
+<link rel="stylesheet" href="/static/css/album.css">
+{% end %}
+
 {% block body %}
 
 
-<body>
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-12 column">
-				<div class="jumbotron">
-					<h1>
-						Hello,{{username}}!
-					</h1>
-					<p>
-						{{user_description}}
-					</p>
-					<p>
-						 <a class="btn btn-primary btn-large" href="/proedit">edit</a>
-					</p>
-				</div>
-			</div>
+<div class="container text-center" id="profile-container">
+		<div class="large-profile-container text-center my-4">
+			<img class="rounded-circle" src="/static/img/face.jpg" alt="Generic placeholder image" width="140" height="140">
 		</div>
-	</div>
-</body>
+		<hr>
+		<div id="name-container">
+		  <!-- name inserted here -->
+		<h1>{{user.nickname}}</h1></div>
+		<div class="row mt-4">
+		  <div class="col-12">
+			<h4>关于我</h4>
+			<br>
+			<div class="text" id="profile-description">
+					{{user.user_description}}
+			</div>
+			<p>
+					<a class="btn btn-primary btn-large" href="/proedit">edit</a>
+			   </p>
+		  </div>
+		</div>
+	  </div>
 {% end %}
