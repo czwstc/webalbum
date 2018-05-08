@@ -75,9 +75,9 @@
                 <a class="card-title font-weight-bold" href="/u/{{ user.id }}/albums/{{ album.album_id }}">{{ album.album_name }}</a>
                 <div class="mt-2 d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/edit">编辑</a>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                     data-target="#exampleModal1" data-id="{{ album.album_id }}" data-name="{{ album.album_name }}" data-description="{{ album.album_description }}">编辑</button>
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal" data-whatever="{{ album.album_id }}">删除</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/delete">删除</a>
                   </div>
                   <small class="text-muted">{{ photos_num[album.album_id] }}张照片</small>
                 </div>
@@ -115,19 +115,64 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="submit" class="btn btn-primary">确认删除</a>
+        <button type="submit" class="btn btn-danger">确认删除</a>
       </div>
     </form>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel1">编辑相册</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" >
+          <form method="post" action="/albums/edit">
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">相册ID</label>
+                <input type="text" class="form-control" id="album-id" name="id" readonly>
+              </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">相册名称</label>
+              <input type="text" class="form-control" id="album-name" name="name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">相册描述</label>
+              <textarea class="form-control" id="album-discribe" name="discribe"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary">确认更改</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
 <script>$('#exampleModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var album_id = button.data('whatever') 
     var modal = $(this)
-    modal.find('.col-form-label').text('要删除的照片id:' + album_id)
     modal.find('.modal-body input').val(album_id)
-  })</script>
+  })
+  
+  $('#exampleModal1').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var id = button.data('id')
+  var name = button.data('name')
+  var description = button.data('description')
+  var modal = $(this)
+  modal.find('.modal-body input').val(recipient)
+})
+  
+  </script>
 {% end %}
 
 

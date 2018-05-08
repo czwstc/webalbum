@@ -47,7 +47,7 @@ class Application(tornado.web.Application):
             url(r"/albums/new", AlbumCreateHandler, name="AlbumCreate"),
             url(r"/albums/*", MyAlbumsHandler,name="MyAlbums"),
             url(r"/u/([0-9]+)/albums/*", AlbumsListHandler),
-            url(r"/u/([0-9]+)/albums/([0-9]+)/edit", AlbumEditHandler),
+            url(r"/albums/edit", AlbumEditHandler),
             url(r"/albums/delete", AlbumDeleteHandler),
 
             #上传相片，相片列表，单个相片显示页面，相片删除，朋友圈-唐永剑，贾超，姚彬，徐怡阳，张光伟，李佳袁

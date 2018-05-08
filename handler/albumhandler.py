@@ -45,7 +45,7 @@ class AlbumCreateHandler(BaseHandler):
 
     @tornado.web.authenticated
     def post(self):
-        user_id=self.get_current_user
+        user=self.get_current_user
         name=self.get_body_argument("name")
         discription=self.get_body_argument("discribe")
         now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
