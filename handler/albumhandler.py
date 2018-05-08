@@ -66,11 +66,16 @@ class AlbumCreateHandler(BaseHandler):
         self.render("SuccessfulNewAlbum.html")
 
 class AlbumEditHandler(BaseHandler):
-    def get(self,uid,albumid):
-        self.write("相册编辑，用户id和相册id分别为"+str(uid)+" "+str(albumid))
-
     def post(self):
-        pass
+        album_id=self.get_body_argument("album_id")
+        name=self.get_body_argument("name")
+        discription=self.get_body_argument("discribe")
+        now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+
+        self.db.execute("UPDATE album SET album_name=name,album_description=discription,edit_date=now_date WHERE album_id = %s",album_id)
+
+        
 
 class AlbumDeleteHandler(BaseHandler):
     def post(self):
