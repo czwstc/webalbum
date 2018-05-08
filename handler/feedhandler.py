@@ -56,7 +56,7 @@ class FeedHandler(BaseHandler):
             dianzan = DianzanPO()
             d_feed_id = self.get_argument("name", None)
             if d_feed_id:
-                if self.get_argument("background", None) == 'gray':
+                if self.get_argument("className", None) == 'btn btn-default btn-sm':
                     dianzan.set_feed_id(int(d_feed_id))
                     dianzan.set_user_id(self.get_current_user().id)
                     dianzandao.adddianzan(dianzan)

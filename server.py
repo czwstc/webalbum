@@ -20,7 +20,7 @@ import uimodules
 
 from tornado.options import define, options
 
-define("port", default=8886, help="run on the given port", type=int)
+define("port", default=8887, help="run on the given port", type=int)
 define("mysql_host", default="47.104.68.55:3306", help="blog database host")
 define("mysql_database", default="test", help="blog database name")
 define("mysql_user", default="root", help="blog database user")

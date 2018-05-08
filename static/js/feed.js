@@ -5,20 +5,20 @@ function change(arg,user_id){
 //             console.log("11111")
 //         }
 //         else{
-         var background = document.getElementById(arg).style.background;
-         if( background == "deepskyblue")
+         var className = document.getElementById(arg).className;
+         if( className == "btn btn-primary btn-sm")
          {
-             document.getElementById(arg).style.background ="gray";
+             document.getElementById(arg).className ="btn btn-default btn-sm";
          }
          else
          {
-            document.getElementById(arg).style.background ="DeepSkyBlue";
+            document.getElementById(arg).className ="btn btn-primary btn-sm";
          }
         var name =  document.getElementById(arg).name;//从第一个输入框里获取数据
             $.ajax({
                 url:"/feed",//调用的是这个url对应的那个Handler
                 type:"POST",//Post方法
-                data:{background:background,name:name},//要往服务器传递的数据
+                data:{className:className,name:name},//要往服务器传递的数据
                 success:function(data){
                     var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
                     console.log(obj.status);
