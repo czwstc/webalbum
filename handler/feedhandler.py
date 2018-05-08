@@ -37,11 +37,11 @@ class FeedHandler(BaseHandler):
             user_id = -1
         like_flag = []
         for i in range(len(feed)):
+            like_flag.append(0)
             for j in feed_d[i]:
                 if j['user_id'] == user_id:
-                    like_flag.append(1)
+                    like_flag[i] = 1
                     break
-                like_flag.append(0)
         self.render("feed.html", feed=feed, feed_c=feed_c, feed_d=feed_d, feed_p=feed_p, like_flag=like_flag, user_id=user_id, user=self.current_user)
 
     #@tornado.web.authenticated

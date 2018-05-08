@@ -6,7 +6,7 @@ class FeedDAO:
     def __init__(self, conn):
         self.cn = conn
 
-    def adddfeed(self, feed):
+    def addfeed(self, feed):
         photo_id = feed.get_photo_id()
         user_id = feed.get_user_id()
         reason = feed.get_reason()
