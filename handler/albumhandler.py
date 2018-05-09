@@ -34,6 +34,7 @@ class AlbumsListHandler(BaseHandler):
                 photos = self.db.get("SELECT COUNT(*) AS NUM FROM photo WHERE album_id = %s", album.album_id)
                 photos_num[album.album_id]=int(photos.NUM)
             self.render("albums.html",user=user,albums=albums,photos_num=photos_num)
+            
         
 
 
@@ -44,7 +45,7 @@ class AlbumCreateHandler(BaseHandler):
 
     @tornado.web.authenticated
     def post(self):
-        user_id=self.get_current_user
+        user=self.get_current_user
         name=self.get_body_argument("name")
         discription=self.get_body_argument("discribe")
         now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
@@ -61,21 +62,26 @@ class AlbumCreateHandler(BaseHandler):
         alb = albumDAO(self.db)
         alb.addalbum(album)
 
-        self.redirect("/u/"+str(self.current_user.id)+"/albums")
+        self.render("SuccessfulNewAlbum.html")
 
 class AlbumEditHandler(BaseHandler):
-    def get(self,uid,albumid):
-        self.write("相册编辑，用户id和相册id分别为"+str(uid)+" "+str(albumid))
-
     def post(self):
-        pass
+        album_id=self.get_body_argument("album_id")
+        name=self.get_body_argument("name")
+        discription=self.get_body_argument("discribe")
+        now_date=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+        self.db.execute("UPDATE album SET album_name= %s ,album_description= %s ,edit_date= %s WHERE album_id = %s",name,discription,now_date,album_id)
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
+        
 
 class AlbumDeleteHandler(BaseHandler):
-    def get(self,uid,albumid):
-         self.write("相册删除，用户id和相册id分别为"+str(uid)+" "+str(albumid))
-
     def post(self):
-        pass
+        user=self.current_user
+        album_id=self.get_body_argument("album_id")
+        self.db.execute("DELETE FROM album WHERE album_id = %s",album_id)
+        self.db.execute("DELETE FROM photo WHERE album_id = %s",album_id)
+        self.redirect("/u/"+str(self.current_user.id)+"/albums")
 
 class MyAlbumsHandler(BaseHandler):
     @tornado.web.authenticated

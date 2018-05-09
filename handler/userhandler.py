@@ -108,15 +108,8 @@ class UserDeleteHandler(BaseHandler):
 
 class ProfileHandler(BaseHandler):
     def get(self):
-        if self.get_current_user():
-            username=self.get_current_user().name
-            user_description=self.get_current_user().user_description
-        else:
-            username="未登录"
-            user_description="这个用户很懒，什么也没有留下"
-        if not user_description:
-            user_description="这个用户很懒，什么也没有留下"
-        self.render("pro.html",username=username,user_description=user_description)
+        user=self.current_user
+        self.render("pro.html",user=user)
 
 
 class ProfileEditHandler(BaseHandler):
