@@ -256,8 +256,14 @@ class Photosall(BaseHandler):
 
 class PhotoDeleteHandler(BaseHandler):
     def get(self, uid, albumid, photoid):
-        self.db.execute("DELETE FROM photo WHERE photo_id = %s", photoid)
-        self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
-
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s",photoid)
+        s="/u/"+uid+"album"+albumid 
+        self.render("successful_delete.html",s=s)
+        #self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
+  
     def post(self):
-        pass
+        photo_id=self.get_body_argument("photo_id")
+        album_id=self.get_body_argument("album_id")
+
+       
+        #self.redirect("/u/"+str(self.current_user.id)+"/albums/"+str(album_id))
