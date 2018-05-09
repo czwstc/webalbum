@@ -181,9 +181,9 @@ class PhotosUploadHandler(BaseHandler):
             print(path_filename_3)
             if self.get_argument("box3") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3, gk3)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['user_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
             else:
-                self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3,
+                self.info_up(album_id, user_id, photo_name2, photo_description3, update_date, filename_3,
                              gk3)  # 将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' " % (filename_3))
             print("al=", al[-1]['photo_id'])  # 返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
@@ -197,10 +197,10 @@ class PhotosUploadHandler(BaseHandler):
             print(path_filename_4)
             if self.get_argument("box4") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4, gk4)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id, "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
             else:
-                self.info_up(album_id, user_id, photo_name4, photo_description4, update_date,
-                                             filename_4, gk4)  # 将信息插入数据库
+                self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4,
+                             gk4)  # 将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' " % (filename_4))
             print("al=", al[-1]['photo_id'])  # 返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_4, al[-1]['photo_id'])
