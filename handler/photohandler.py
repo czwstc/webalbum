@@ -257,8 +257,15 @@ class Photosall(BaseHandler):
 class PhotoDeleteHandler(BaseHandler):
     def get(self, uid, albumid, photoid):
         self.db.execute("DELETE FROM photo WHERE photo_id = %s",photoid)
-        s="/u/"+uid+"album"+albumid 
-        self.render("successful_delete.html",s=s)
+        album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid, uid)
+            self.render("photos_show.html", user=user, photos=photo, album=album)
+        #s="/u/"+uid+"album"+albumid 
+        #self.render("successful_delete.html",s=s)
         #self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
   
     def post(self):
