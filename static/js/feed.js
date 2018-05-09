@@ -91,3 +91,30 @@ function hideMask(flag){
    }
    $('#mask').modal('hide');
 }
+
+
+function feed_delete(feed_id, feed_time){
+        console.log(feed_id);
+        console.log(feed_time);
+        $.ajax({
+            url:"/feed",//调用的是这个url对应的那个Handler
+            type:"POST",//Post方法
+            data:{feed_id:feed_id},//要往服务器传递的数据
+            success:function(data){
+                var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
+                console.log(obj.status);
+                console.log(obj.message);
+                var main_body = document.getElementById("main_body");
+                var comp = document.getElementById(feed_time);
+                main_body.removeChild(comp);
+            },
+            error:function(){//获取失败
+                console.log("failed");
+            }
+        });
+}
+
+
+function comment_delete(){
+    alert("aaaaaa")
+}

@@ -20,7 +20,24 @@ class FeedDAO:
             print("insert error")
 
     def deletefeed(self, id):
+        id = int(id)
         sql = "delete from feed where feed_id = '%d'" % id
+        try:
+            # cursor = self.cn.cursor()
+            self.cn.execute(sql)
+            # cursor.close()
+        except:
+            print("delete error")
+
+        sql = "delete from comment where feed_id = '%d'" % id
+        try:
+            # cursor = self.cn.cursor()
+            self.cn.execute(sql)
+            # cursor.close()
+        except:
+            print("delete error")
+
+        sql = "delete from dianzan where feed_id = '%d'" % id
         try:
             # cursor = self.cn.cursor()
             self.cn.execute(sql)
