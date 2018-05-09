@@ -144,7 +144,7 @@ class PhotosUploadHandler(BaseHandler):
             filename_1 = self.fileup('fk0', file_user)  # 上传到static\\images
             path_filename_1 = file_user + os.path.sep + filename_1
             print(path_filename_1)
-            if self.get_argument("box1") == '1':
+            if self.get_argument("box11") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name1, photo_description1, update_date,
                                              filename_1,
                                              gk1)  # 将信息插入数据库
@@ -163,7 +163,7 @@ class PhotosUploadHandler(BaseHandler):
             filename_2 = self.fileup('fk1', file_user)
             path_filename_2 = file_user + os.path.sep + filename_2
             print(path_filename_2)
-            if self.get_argument("box2") == '1':
+            if self.get_argument("box12") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name2, photo_description2, update_date, filename_2, gk2)  # 将信息插入数据库
                 self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description2, update_date)
             else:
@@ -179,9 +179,9 @@ class PhotosUploadHandler(BaseHandler):
             filename_3 = self.fileup('fk2', file_user)
             path_filename_3 = file_user + os.path.sep + filename_3
             print(path_filename_3)
-            if self.get_argument("box3") == '1':
+            if self.get_argument("box13") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3, gk3)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['user_id'], photo_description3, update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description3, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3,
                              gk3)  # 将信息插入数据库
@@ -195,9 +195,9 @@ class PhotosUploadHandler(BaseHandler):
             filename_4 = self.fileup('fk3', file_user)
             path_filename_4 = file_user + os.path.sep + filename_4
             print(path_filename_4)
-            if self.get_argument("box4") == '1':
+            if self.get_argument("box14") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4, gk4)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id, photo_description4, update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description4, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name4, photo_description4, update_date,
                                              filename_4, gk4)  # 将信息插入数据库
