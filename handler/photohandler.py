@@ -18,6 +18,7 @@ import shutil
 import time
 import unicodedata
 import uimodules
+import zipfile
 
 from log.PhotoPO import PhotoPO
 from log.PhotoDAO import PhotoDAO
@@ -276,3 +277,37 @@ class jc_PhotoPlayHandler(BaseHandler):
 
     def post(self):
         pass
+
+class PhotosDownloadHandler(BaseHandler):
+    def get(self,uid,album_id):
+        print("downloading..album_id : "+album_id)
+        file_list=[]
+        files=self.db.query("SELECT * FROM photo WHERE album_id = %s",album_id)
+
+        s = os.path.pardir + os.path.sep + 'static'+ os.path.sep+ 'images'+ os.path.sep
+
+        for file in files:
+            upload_path = os.path.join(os.path.dirname(__file__), s, file.file_name)
+            file_list.append(upload_path) 
+
+        print(file_list)
+
+        zip_file_name="a"+album_id+".zip"
+        zip_file = s + zip_file_name
+        zip_file = os.path.join(os.path.dirname(__file__),zip_file)
+        self.zip_files(file_list, zip_file)
+
+        with open( zip_file, "rb") as f:
+            self.set_header('Content-Type','application/octet-stream')
+            self.set_header ('Content-Disposition', 'attachment; filename='+zip_file_name)
+            self.write(f.read())
+        self.write("downloading....")
+
+
+    def zip_files(self, files, zip_name ):
+        zip = zipfile.ZipFile( zip_name, 'w', zipfile.ZIP_DEFLATED )
+        for file in files:
+            print ('compressing', file)
+            zip.write( file )
+        zip.close()
+        print ('compressing finished')

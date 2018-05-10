@@ -86,6 +86,7 @@
 
               <div class="card-footer">
                 <small>最近上传 {{ locale.format_date(album.edit_date, full_format=True, shorter=True,relative=False ) }}</small>
+                <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/download">下载</a>
               </div>
             </div>
           </div>
