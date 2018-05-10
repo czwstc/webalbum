@@ -30,35 +30,25 @@
 <main role="main">
 <div class="container" id="main_body">
 	{%for i in range(len(feed))[::-1]%}
-	<div class="row clearfix" id= {{feed[i]['feed_id']}} >
-		<div class="col-md-2 column">
-		</div>
-		<div class="col-md-8 column" style="background:url(/static/img/feed_block.jpg);background-repeat:no-repeat;background-size:100% 100%;">
-            <div class="row clearfix" >
-                <div class="col-md-6 column" >
-					<p>
+	<div class="story card" id= {{feed[i]['feed_id']}} style="background:url(/static/img/feed_block.jpg);background-repeat:no-repeat;background-size:100% 100%;">
+                <div class="story-creator card-title" >
+					<p align="left">
 					   {{feed[i]['name']}}      {{feed[i]['time']}}
-				    </p>
-                </div>
-                <div class="col-md-6 column" align="right">
+
 					{%if user_id == feed[i]['user_id']%}
-                   <button  onclick="feed_delete('{{feed[i]['user_id']}}','{{feed[i]['feed_id']}}')" class="btn btn-default btn-sm">
+                   <a  onclick="feed_delete('{{feed[i]['user_id']}}','{{feed[i]['feed_id']}}')" href="javascript:void(0);">
 					   删除
-			       </button>
+			       </a>
 					{%end%}
-            </div>
-            </div>
-			<p style="word-break:break-all" class="p1">
+					</p>
+				</div>
+			<p style="word-break:break-all" class="story-content card-text">
 				{{feed[i]['reason']}}
             </p>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="thumbnail" align="center">
-						<img alt="400x300" src="/static/images/min/{{feed[i]['photo_id']}}.jpg"/>
-					</div>
-				</div>
-			</div>
-			<p></p>
+		     <div class="story-content" align="center" >
+				 <img alt="800x600" src="/static/images/{{feed_p[i]['file_name']}}" width="80%" height="60%"/>
+			 </div>
+		<p></p>
 			<div class="row clearfix">
 				<div class="col-md-6 column">
 					<div class="row clearfix">
@@ -118,37 +108,30 @@
 					{%end%}
 				</div>
 			</div>
-			<p></p>
-			<div class="row clearfix">
-				<div class="col-md-12 column" id = "comments{{feed[i]['feed_id']}}">
-					<p>
-						这里是评论区
-					</p>
+			<div class="story-comments">
+				<div class="comment mb-2" id = "comments{{feed[i]['feed_id']}}">
 					{%if feed_c[i]%}
 					{%for comment_index in range(len(feed_c[i]))%}
-					<p style="word-break:break-all"  onclick="comment_delete()">
+					<p style="word-break:break-all"  id = "{{feed_c[i][comment_index]['comment_id']}}">
 						{{feed_c[i][comment_index]['user_name']}}:{{feed_c[i][comment_index]['comment_body']}}
+						{% if user_id == feed_c[i][comment_index]['user_id']%}
+						<a onclick="comment_delete('{{feed_c[i][comment_index]['comment_id']}}','comments{{feed[i]['feed_id']}}')" href="javascript:void(0)">删除</a>
+						{% end %}
 					</p>
 					{%end%}
 					{%end%}
 				</div>
 			</div>
     </div>
-		<div class="col-md-2 column">
-		</div>
-	</div>
-	{%if i > 0%}
-    <p>
-    </p>
+
 	{%end%}
-    {%end%}
 </div>
 <div class="modal fade" id="mask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<h4 align="center">留下你的足迹吧</h4>
 			<div align="center">
-			<textarea id="textarea" rows="4" cols="65" ></textarea>
+			<textarea id="textarea" rows="4" cols="55" ></textarea>
 			</div>
 			<div align="center">
 			    <input type="button"  onclick="hideMask('0')" value="取消" class="btn btn-primary btn-sm">

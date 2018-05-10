@@ -115,6 +115,23 @@ function feed_delete(feed_id, feed_time){
 }
 
 
-function comment_delete(){
-    alert("aaaaaa")
+function comment_delete(comment_id, location_id){
+    console.log(comment_id);
+    console.log(location_id);
+    $.ajax({
+        url:"/feed",//调用的是这个url对应的那个Handler
+        type:"POST",//Post方法
+        data:{comment_id:comment_id},//要往服务器传递的数据
+        success:function(data){
+            var obj = jQuery.parseJSON(data);//获取的数据一般为json格式，用这个方法来解析数据
+            console.log(obj.status);
+            console.log(obj.message);
+            var main_body = document.getElementById(location_id);
+            var comp = document.getElementById(comment_id);
+            main_body.removeChild(comp);
+        },
+        error:function(){//获取失败
+            console.log("failed");
+        }
+    });
 }
