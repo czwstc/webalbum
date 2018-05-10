@@ -96,8 +96,8 @@ class FeedHandler(BaseHandler):
 
         #删除评论
         comment_id = self.get_argument("comment_id", None)
-        print(feed_id)
-        if feed_id:
+        print(comment_id)
+        if comment_id:
             commentDAO = CommentDAO(self.db)
             commentDAO.deletecomment(int(comment_id))
             data = {'status': 0, 'message': 'successfully'}  # 封装数据
