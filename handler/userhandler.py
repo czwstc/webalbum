@@ -23,7 +23,7 @@ from basehandler import BaseHandler
 
 class AuthCreateHandler(BaseHandler):
     def get(self):
-        self.render("create_author.html")
+        self.render("create_author.html",error=None)
     @gen.coroutine
     def post(self):    #提交表单，上传数据库
         # if self.any_author_exists():
@@ -40,8 +40,8 @@ class AuthCreateHandler(BaseHandler):
         #将password以utf-8解码之后才能哈希
         hashed_password = bcrypt.hashpw(password.encode(encoding='UTF-8'), bcrypt.gensalt())
 
-        if(hashed_password!=password_again):
-            self.render("create_author.html")    #密码确认
+        if(password!=password_again):
+            self.render("create_author.html",error="两次输入密码不匹配")    #密码确认
         if(email and name and password):
             author_id = self.db.execute(    #存加密过的密码
                 "INSERT INTO users (email, name, hashed_password,nickname,user_description) "
@@ -50,11 +50,10 @@ class AuthCreateHandler(BaseHandler):
                 hashed_password, self.get_argument("nickname"),
                 self.get_argument("user_description"))
             self.set_secure_cookie("cur_user", str(author_id))
-            self.redirect(self.get_argument("next", "/"))
+            self.render("login.html",error=None)
         else:
-            self.redirect(self.get_argument("next", "/"))
-        self.redirect(self.get_argument("next", "/"))
-
+            self.render("create_author.html",error="请填全信息")
+        
 
 class AuthLoginHandler(BaseHandler):
     def get(self):
