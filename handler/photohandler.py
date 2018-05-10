@@ -301,7 +301,6 @@ class PhotosDownloadHandler(BaseHandler):
             self.set_header('Content-Type','application/octet-stream')
             self.set_header ('Content-Disposition', 'attachment; filename='+zip_file_name)
             self.write(f.read())
-        self.write("downloading....")
 
 
     def zip_files(self, files, zip_name ):
@@ -311,3 +310,41 @@ class PhotosDownloadHandler(BaseHandler):
             zip.write( file )
         zip.close()
         print ('compressing finished')
+
+class PhotoDeleteHandler(BaseHandler):
+    def get(self, uid, albumid, photoid):
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s", photoid)
+        #self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
+        album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid, uid)
+            self.render("photos_show.html", user=user, photos=photo, album=album)
+
+    def post(self):
+        pass
+
+
+class jc_PhotoPlayHandler(BaseHandler):
+    def get(self):
+        self.render("carousel.html")
+
+    def post(self):
+        pass
+
+class PhotoDownloadHandler(BaseHandler):
+    def get(self,uid,album_id,photo_id):
+        print("downloading..photo_id : "+photo_id)
+        file=self.db.get("SELECT * FROM photo WHERE photo_id = %s",photo_id)
+
+        s = os.path.pardir + os.path.sep + 'static'+ os.path.sep+ 'images'+ os.path.sep
+        upload_path = os.path.join(os.path.dirname(__file__), s, file.file_name)
+
+        print(upload_path)
+
+        with open( upload_path, "rb") as f:
+            self.set_header('Content-Type','application/octet-stream')
+            self.set_header ('Content-Disposition', 'attachment; filename='+file.file_name)
+            self.write(f.read())

@@ -61,6 +61,7 @@ class Application(tornado.web.Application):
             url(r"/u/([0-9]+)/albums/([0-9]+)/play", PhotoPlayHandler),         #<-这是幻灯播放
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),        #<-这是单张照片浏览        
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
+            url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/download", PhotoDownloadHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
             url(r"/test/*", jc_PhotoPlayHandler)
 

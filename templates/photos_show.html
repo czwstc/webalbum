@@ -81,6 +81,7 @@
                 <div class="d-flex justify-content-between align-items-left">
                   <div class="btn-group">
                       <a class="btn btn-outline-primary btn-sm" href="/u/{{ user.id }}/albums/{{ album["album_id"] }}/{{ photo.photo_id }}/delete" role="button">删除</a>
+                      <a class="btn btn-sm btn-outline-secondary" href="/u/{{ user.id }}/albums/{{ album.album_id }}/{{ photo.photo_id }}/download">下载</a>
                       <small class="text-muted">创建于{{ photo.update_date }}</small>
                   </div>
                   
