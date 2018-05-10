@@ -144,11 +144,11 @@ class PhotosUploadHandler(BaseHandler):
             filename_1 = self.fileup('fk0', file_user)  # 上传到static\\images
             path_filename_1 = file_user + os.path.sep + filename_1
             print(path_filename_1)
-            if self.get_argument("box1") == '1':
+            if self.get_argument("box11") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name1, photo_description1, update_date,
                                              filename_1,
                                              gk1)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description1, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name1, photo_description1, update_date,
                              filename_1,
@@ -163,9 +163,9 @@ class PhotosUploadHandler(BaseHandler):
             filename_2 = self.fileup('fk1', file_user)
             path_filename_2 = file_user + os.path.sep + filename_2
             print(path_filename_2)
-            if self.get_argument("box2") == '1':
+            if self.get_argument("box12") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name2, photo_description2, update_date, filename_2, gk2)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description2, update_date)
             else:
                 self.info_up(album_id, user_id, photo_name2, photo_description2, update_date, filename_2,
                              gk2)  # 将信息插入数据库
@@ -179,11 +179,11 @@ class PhotosUploadHandler(BaseHandler):
             filename_3 = self.fileup('fk2', file_user)
             path_filename_3 = file_user + os.path.sep + filename_3
             print(path_filename_3)
-            if self.get_argument("box3") == '1':
+            if self.get_argument("box13") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3, gk3)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description3, update_date)
             else:
-                self.info_up(album_id, user_id, photo_name2, photo_description3, update_date, filename_3,
+                self.info_up(album_id, user_id, photo_name3, photo_description3, update_date, filename_3,
                              gk3)  # 将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' " % (filename_3))
             print("al=", al[-1]['photo_id'])  # 返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
@@ -195,12 +195,12 @@ class PhotosUploadHandler(BaseHandler):
             filename_4 = self.fileup('fk3', file_user)
             path_filename_4 = file_user + os.path.sep + filename_4
             print(path_filename_4)
-            if self.get_argument("box4") == '1':
+            if self.get_argument("box14") == '1':
                 feed_photo_id = self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4, gk4)  # 将信息插入数据库
-                self.feed_up(user_id, feed_photo_id[0]['photo_id'], "这是一个默认理由", update_date)
+                self.feed_up(user_id, feed_photo_id[0]['photo_id'], photo_description4, update_date)
             else:
-                self.info_up(album_id, user_id, photo_name4, photo_description4, update_date, filename_4,
-                             gk4)  # 将信息插入数据库
+                self.info_up(album_id, user_id, photo_name4, photo_description4, update_date,
+                                             filename_4, gk4)  # 将信息插入数据库
             al = self.db.query("SELECT photo_id FROM photo WHERE file_name ='%s' " % (filename_4))
             print("al=", al[-1]['photo_id'])  # 返回的是一个列表里面的嵌入字典，打印最下面的一行的photo_id
             self.suolue(path_filename_4, al[-1]['photo_id'])
@@ -256,14 +256,23 @@ class Photosall(BaseHandler):
 
 class PhotoDeleteHandler(BaseHandler):
     def get(self, uid, albumid, photoid):
-        self.db.execute("DELETE FROM photo WHERE photo_id = %s",photoid)
-        s="/u/"+uid+"album"+albumid 
-        self.render("successful_delete.html",s=s)
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s", photoid)
         #self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
-  
-    def post(self):
-        photo_id=self.get_body_argument("photo_id")
-        album_id=self.get_body_argument("album_id")
+        album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid, uid)
+            self.render("photos_show.html", user=user, photos=photo, album=album)
 
-       
-        #self.redirect("/u/"+str(self.current_user.id)+"/albums/"+str(album_id))
+    def post(self):
+        pass
+
+
+class jc_PhotoPlayHandler(BaseHandler):
+    def get(self):
+        self.render("carousel.html")
+
+    def post(self):
+        pass

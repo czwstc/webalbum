@@ -29,6 +29,10 @@ define("mysql_password", default="linux", help="blog database password")
 # A thread pool to be used for password hashing with bcrypt.
 executor = concurrent.futures.ThreadPoolExecutor(2)
 
+
+
+
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -57,6 +61,7 @@ class Application(tornado.web.Application):
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),        #<-这是单张照片浏览        
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
+            url(r"/test/*", jc_PhotoPlayHandler)
 
         ]
         settings = dict(
