@@ -18,6 +18,7 @@ import shutil
 import time
 import unicodedata
 import uimodules
+import zipfile
 
 from log.PhotoPO import PhotoPO
 from log.PhotoDAO import PhotoDAO
@@ -288,3 +289,74 @@ class jc_PhotoPlayHandler(BaseHandler):
 
     def post(self):
         pass
+
+class PhotosDownloadHandler(BaseHandler):
+    def get(self,uid,album_id):
+        print("downloading..album_id : "+album_id)
+        file_list=[]
+        files=self.db.query("SELECT * FROM photo WHERE album_id = %s",album_id)
+
+        s = os.path.pardir + os.path.sep + 'static'+ os.path.sep+ 'images'+ os.path.sep
+
+        for file in files:
+            upload_path = os.path.join(os.path.dirname(__file__), s, file.file_name)
+            file_list.append(upload_path) 
+
+        print(file_list)
+
+        zip_file_name="a"+album_id+".zip"
+        zip_file = s + zip_file_name
+        zip_file = os.path.join(os.path.dirname(__file__),zip_file)
+        self.zip_files(file_list, zip_file)
+
+        with open( zip_file, "rb") as f:
+            self.set_header('Content-Type','application/octet-stream')
+            self.set_header ('Content-Disposition', 'attachment; filename='+zip_file_name)
+            self.write(f.read())
+
+
+    def zip_files(self, files, zip_name ):
+        zip = zipfile.ZipFile( zip_name, 'w', zipfile.ZIP_DEFLATED )
+        for file in files:
+            print ('compressing', file)
+            zip.write( file )
+        zip.close()
+        print ('compressing finished')
+
+class PhotoDeleteHandler(BaseHandler):
+    def get(self, uid, albumid, photoid):
+        self.db.execute("DELETE FROM photo WHERE photo_id = %s", photoid)
+        #self.write("相片删除页面，用户id,相册id，相片id分别为" + str(uid) + " " + str(albumid) + " " + str(photoid))
+        album = self.db.get("SELECT * FROM album WHERE album_id = %s", albumid)
+        user = self.db.get("SELECT * FROM users WHERE id = %s", uid)
+        if not user:
+            raise tornado.web.HTTPError(404)
+        else:
+            photo = self.db.query("SELECT * FROM photo WHERE album_id = %s AND user_id = %s", albumid, uid)
+            self.render("photos_show.html", user=user, photos=photo, album=album)
+
+    def post(self):
+        pass
+
+
+class jc_PhotoPlayHandler(BaseHandler):
+    def get(self):
+        self.render("carousel.html")
+
+    def post(self):
+        pass
+
+class PhotoDownloadHandler(BaseHandler):
+    def get(self,uid,album_id,photo_id):
+        print("downloading..photo_id : "+photo_id)
+        file=self.db.get("SELECT * FROM photo WHERE photo_id = %s",photo_id)
+
+        s = os.path.pardir + os.path.sep + 'static'+ os.path.sep+ 'images'+ os.path.sep
+        upload_path = os.path.join(os.path.dirname(__file__), s, file.file_name)
+
+        print(upload_path)
+
+        with open( upload_path, "rb") as f:
+            self.set_header('Content-Type','application/octet-stream')
+            self.set_header ('Content-Disposition', 'attachment; filename='+file.file_name)
+            self.write(f.read())

@@ -57,9 +57,11 @@ class Application(tornado.web.Application):
             #上传相片，相片列表，单个相片显示页面，相片删除，朋友圈-唐永剑，贾超，姚彬，徐怡阳，张光伟，李佳袁
             url(r"/photos/new", PhotosUploadHandler, name="PhotosUpload"),
             url(r"/u/([0-9]+)/albums/([0-9]+)", PhotosListHandler),             #<-这是相片列表
+            url(r"/u/([0-9]+)/albums/([0-9]+)/download", PhotosDownloadHandler),
             url(r"/u/([0-9]+)/albums/([0-9]+)/play", PhotoPlayHandler),         #<-这是幻灯播放
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)", PhotoHandler),        #<-这是单张照片浏览        
             url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/delete", PhotoDeleteHandler),
+            url(r"/u/([0-9]+)/albums/([0-9]+)/([0-9]+)/download", PhotoDownloadHandler),
             url(r"/feed/*", FeedHandler, name="feed"),
             url(r"/test/*", jc_PhotoPlayHandler)
 

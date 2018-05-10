@@ -79,8 +79,9 @@ class AlbumDeleteHandler(BaseHandler):
     def post(self):
         user=self.current_user
         album_id=self.get_body_argument("album_id")
-        self.db.execute("DELETE FROM album WHERE album_id = %s",album_id)
+        self.db.execute("DELETE FROM feed WHERE photo_id in (select photo_id from photo where album_id= %s )",album_id)
         self.db.execute("DELETE FROM photo WHERE album_id = %s",album_id)
+        self.db.execute("DELETE FROM album WHERE album_id = %s",album_id)
         self.redirect("/u/"+str(self.current_user.id)+"/albums")
 
 class MyAlbumsHandler(BaseHandler):
